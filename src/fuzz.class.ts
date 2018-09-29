@@ -66,7 +66,7 @@ export class Fuzz {
 				fuzzItem.subject,
 				this.editCosts,
 			);
-			this.fillEditMatrix(
+			const operationMatrix = this.fillEditMatrix(
 				editMatrix,
 				fuzzItem.query,
 				fuzzItem.subject,
@@ -74,6 +74,8 @@ export class Fuzz {
 			);
 			fuzzItem.editMatrix = editMatrix;
 			fuzzItem.editDistance = editMatrix[editMatrix.length - 1][editMatrix[0].length - 1];
+			fuzzItem.operationMatrix = operationMatrix;
+
 		});
 	}
 
@@ -107,18 +109,63 @@ export class Fuzz {
 	): number[][] {
 		const height = matrix.length;
 		const width = matrix[0].length;
+		const operationMatrix = this.getInitialOperationMatrix(height, width);
 		for (let rowIndex = 1; rowIndex < height; rowIndex++) {
 			const insertionCost = rowIndex === (height - 1) ? editCosts.postQueryInsertion : editCosts.insertion;
 			for (let columnIndex = 1; columnIndex < width; columnIndex++) {
-				const substitutionCost = query[rowIndex - 1] === subject[columnIndex - 1] ? 0 : editCosts.substitution;
-				const lowestAccumulatedCost = Math.min(
+				const doesSubstitutionReplace = query[rowIndex - 1] !== subject[columnIndex - 1];
+				const substitutionCost = doesSubstitutionReplace ? editCosts.substitution : 0;
+				const operationCosts = [
 					matrix[rowIndex - 1][columnIndex] + editCosts.deletion,
 					matrix[rowIndex][columnIndex - 1] + insertionCost,
 					matrix[rowIndex - 1][columnIndex - 1] + substitutionCost,
-				);
-				matrix[rowIndex][columnIndex] = lowestAccumulatedCost;
+				];
+				const operationIndex = getMinIndex(operationCosts);
+				matrix[rowIndex][columnIndex] = operationCosts[operationIndex];
+				if (operationIndex === 2 && !doesSubstitutionReplace) {
+					operationMatrix[rowIndex][columnIndex] = 3;
+				} else {
+					operationMatrix[rowIndex][columnIndex] = operationIndex;
+				}
 			}
 		}
-		return matrix;
+		return operationMatrix;
 	}
+
+	public getInitialOperationMatrix(height: number, width: number): number[][] {
+		const firstRow = [];
+		for (let i = 0; i < width; i++) {
+			firstRow.push(1);
+		}
+
+		const operationMatrix = [firstRow];
+		for(let i = 1; i < height; i++) {
+			const row = new Array(width);
+			row[0] = 0;
+			operationMatrix.push(row);
+		}
+		return operationMatrix;
+	}
+
+	public getSubstitutionOperations(operationMatrix: number[][]) {
+		let yLoc = operationMatrix.length - 1;
+		let xLoc = operationMatrix[0].length - 1;
+		let substitutionOperations = [];
+
+
+	}
+
+}
+
+function getMinIndex(numbers: number[]) {
+	let minIndex = 0;
+	let minValue = numbers[0];
+	for (let nextIndex = 1; nextIndex < numbers.length; nextIndex++) {
+		const nextValue = numbers[nextIndex];
+		if (nextValue < minValue) {
+			minIndex = nextIndex;
+			minValue = nextValue;
+		}
+	}
+	return minIndex;
 }
