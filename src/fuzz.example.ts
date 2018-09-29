@@ -8,7 +8,7 @@ export function demoFuzz() {
         'catatonic',
         'tonic',
         'taton',
-        'titon'
+        'titon    '
     ];
 
     const testItems = testStrings.map((testString: string) => {
@@ -20,9 +20,16 @@ export function demoFuzz() {
 
     const fuzz = new Fuzz();
 
-    fuzz.sort(testItems)
+    const fuzzItems = fuzz.sort(testItems, ['label'], 'cat');
 
-    console.log('fuzz', fuzz);
+    const prettyLog = fuzzItems.map((fuzzyItem) => {
+        return `${fuzzyItem.subject}, ${fuzzyItem.editDistance}`
+    })
+
+    fuzzItems.forEach((fuzzItem) => {
+        fuzz.debugFuzzItem(fuzzItem);
+    });
+
 }
 
 demoFuzz()
