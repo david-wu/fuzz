@@ -1,6 +1,7 @@
 
 export interface FuzzItem {
 	original: any,
+	key: string,
 	subject: string,
 	query: string,
 	editMatrix: number[][],

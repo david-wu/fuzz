@@ -1,4 +1,9 @@
 {
+  "name": "fuzz",
+  "description": "fuzzy matching",
+  "author": "David Wu <david.wuu@gmail.com>",
+  "license": "MIT",
+  "version": "0.0.1",
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",

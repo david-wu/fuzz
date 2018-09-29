@@ -3,6 +3,7 @@ import { EditCosts, FuzzItem } from './models';
 
 export class Fuzz {
 
+	public static readonly DEFAULT_EDIT_THRESHOLD: number = 40;
 	public static readonly DEFAULT_EDIT_COSTS: EditCosts = {
 		substitution: 141,
 		deletion: 100,
@@ -11,13 +12,14 @@ export class Fuzz {
 		postQueryInsertion: 5,
 	}
 
-	public editCosts = { ...Fuzz.DEFAULT_EDIT_COSTS } as EditCosts;
+	public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
+	public editThreshold: number = Fuzz.DEFAULT_EDIT_THRESHOLD;
 
 	public filterSort(
 		items: any[],
 		subjectKeys: string[],
 		query: string,
-		editDistancePerQueryLength: number = 50,
+		editDistancePerQueryLength: number = this.editThreshold,
 	) {
 		const fuzzItems: FuzzItem[] = this.getFuzzItems(items, subjectKeys, query);
 		this.scoreFuzzItems(fuzzItems);
@@ -49,6 +51,7 @@ export class Fuzz {
 			subjectKeys.forEach((key: string) => {
 				fuzzItems.push({
 					original: item,
+					key: key,
 					subject: item[key],
 					query: query,
 				} as FuzzItem);

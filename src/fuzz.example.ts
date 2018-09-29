@@ -1,5 +1,5 @@
-import {Fuzz} from './fuzz.class';
 
+import { Fuzz } from './fuzz.class';
 
 export function demoFuzz() {
 
@@ -17,19 +17,12 @@ export function demoFuzz() {
         };
     });
 
-
     const fuzz = new Fuzz();
-
     const fuzzItems = fuzz.filterSort(testItems, ['label'], 'cat');
-
-    const prettyLog = fuzzItems.map((fuzzyItem) => {
-        return `${fuzzyItem.subject}, ${fuzzyItem.editDistance}`
-    })
 
     fuzzItems.forEach((fuzzItem) => {
         console.log(fuzz.debugFuzzItem(fuzzItem));
     });
-
 }
 
 demoFuzz()
