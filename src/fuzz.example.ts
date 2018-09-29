@@ -20,14 +20,14 @@ export function demoFuzz() {
 
     const fuzz = new Fuzz();
 
-    const fuzzItems = fuzz.sort(testItems, ['label'], 'cat');
+    const fuzzItems = fuzz.filterSort(testItems, ['label'], 'cat');
 
     const prettyLog = fuzzItems.map((fuzzyItem) => {
         return `${fuzzyItem.subject}, ${fuzzyItem.editDistance}`
     })
 
     fuzzItems.forEach((fuzzItem) => {
-        fuzz.debugFuzzItem(fuzzItem);
+        console.log(fuzz.debugFuzzItem(fuzzItem));
     });
 
 }

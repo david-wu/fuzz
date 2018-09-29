@@ -1,24 +1,49 @@
-import { EditCosts } from './models/edit-costs.interface';
 
-export interface FuzzItem {
-	original: any,
-	subject: string,
-	query: string,
-	editMatrix: number[][],
-	editDistance: number,
-};
-
-export const defaultEditCosts: EditCosts = {
-	substitution: 141,
-	deletion: 100,
-	insertion: 100,
-	preQueryInsertion: 5,
-	postQueryInsertion: 10,
-};
+import { EditCosts, FuzzItem } from './models';
 
 export class Fuzz {
 
-	public sort(items: any[], subjectKeys: string[], query: string) {
+	public static readonly DEFAULT_EDIT_COSTS: EditCosts = {
+		substitution: 141,
+		deletion: 100,
+		insertion: 100,
+		preQueryInsertion: 10,
+		postQueryInsertion: 5,
+	}
+
+	public editCosts = { ...Fuzz.DEFAULT_EDIT_COSTS } as EditCosts;
+
+	public filterSort(
+		items: any[],
+		subjectKeys: string[],
+		query: string,
+		editDistancePerQueryLength: number = 50,
+	) {
+		const fuzzItems: FuzzItem[] = this.getFuzzItems(items, subjectKeys, query);
+		this.scoreFuzzItems(fuzzItems);
+		const filteredFuzzItems = fuzzItems.filter((fuzzItem: FuzzItem) => {
+			return fuzzItem.editDistance <= (editDistancePerQueryLength * fuzzItem.query.length);
+		});
+		filteredFuzzItems.sort((a: FuzzItem, b: FuzzItem) => a.editDistance - b.editDistance);
+		return filteredFuzzItems;
+	}
+
+	public sort(
+		items: any[],
+		subjectKeys: string[],
+		query: string,
+	): FuzzItem[] {
+		const fuzzItems: FuzzItem[] = this.getFuzzItems(items, subjectKeys, query);
+		this.scoreFuzzItems(fuzzItems);
+		fuzzItems.sort((a: FuzzItem, b: FuzzItem) => a.editDistance - b.editDistance);
+		return fuzzItems;
+	}
+
+	public getFuzzItems(
+		items: any[],
+		subjectKeys: string[],
+		query: string
+	): FuzzItem[] {
 		const fuzzItems: FuzzItem[] = [];
 		items.forEach((item: any) => {
 			subjectKeys.forEach((key: string) => {
@@ -26,34 +51,53 @@ export class Fuzz {
 					original: item,
 					subject: item[key],
 					query: query,
-				} as FuzzItem)
+				} as FuzzItem);
 			});
 		});
-
-		this.scoreFuzzItems(fuzzItems);
-		fuzzItems.sort((a: FuzzItem, b: FuzzItem) => a.editDistance - b.editDistance);
-		return fuzzItems
+		return fuzzItems;
 	}
 
 	public scoreFuzzItems(fuzzItems: FuzzItem[]) {
 		fuzzItems.forEach((fuzzItem: FuzzItem) => {
-			const editMatrix = this.getInitialMatrix(
-				fuzzItem.query.length + 1,
-				fuzzItem.subject.length + 1,
-				defaultEditCosts,
+			const editMatrix = this.getInitialEditMatrix(
+				fuzzItem.query,
+				fuzzItem.subject,
+				this.editCosts,
 			);
-			this.fillMatrix(
+			this.fillEditMatrix(
 				editMatrix,
 				fuzzItem.query,
 				fuzzItem.subject,
-				defaultEditCosts,
+				this.editCosts,
 			);
 			fuzzItem.editMatrix = editMatrix;
 			fuzzItem.editDistance = editMatrix[editMatrix.length - 1][editMatrix[0].length - 1];
 		});
 	}
 
-	public fillMatrix(
+	public getInitialEditMatrix(
+		query: string,
+		subject: string,
+		editCosts: EditCosts,
+	): number[][] {
+		const height = query.length + 1;
+		const width = subject.length + 1;
+
+		const firstRow = [];
+		for (let i = 0; i < width; i++) {
+			firstRow.push(i * editCosts.preQueryInsertion);
+		}
+
+		const initialEditMatrix = [firstRow];
+		for (let i = 1; i < height; i++) {
+			const row = new Array(width);
+			row[0] = i * editCosts.deletion;
+			initialEditMatrix.push(row);
+		}
+		return initialEditMatrix;
+	}
+
+	public fillEditMatrix(
 		matrix: number[][],
 		query: string,
 		subject: string,
@@ -76,39 +120,21 @@ export class Fuzz {
 		return matrix;
 	}
 
-	public getInitialMatrix(
-		height: number,
-		width: number,
-		editCosts: EditCosts
-	): number[][] {
-
-		const firstRow = [];
-		for (let i = 0; i < width; i++) {
-			firstRow.push(i * editCosts.preQueryInsertion);
-		}
-
-		const initialMatrix = [firstRow];
-		for (let i = 1; i < height; i++) {
-			const row = new Array(width);
-			row[0] = i * editCosts.deletion
-			initialMatrix.push(row);
-		}
-		return initialMatrix;
-	}
-
-	public debugFuzzItem(fuzzItem: FuzzItem) {
-		console.log(`\n\nsubject: ${fuzzItem.subject}, query: ${fuzzItem.query}, editDistance: ${fuzzItem.editDistance}`);
-		const tableHeader = fuzzItem.subject.split('').map((character: string) => padString(character, 5)).join('');
-		console.log(`       ${tableHeader}`);
-
-		fuzzItem.editMatrix.forEach((row: number[], rowIndex: number) => {
-			const rowString = row.map((cell: number) => padString(cell, 5)).join('');
-			console.log(`${fuzzItem.query[rowIndex - 1] || ' '} ${rowString}`);
+	public debugFuzzItem(fuzzItem: FuzzItem): string {
+		const tableHeader: string = fuzzItem.subject.split('').map((character: string) => padString(character, 6)).join('');
+		const tableRows: string[] = fuzzItem.editMatrix.map((row: number[], rowIndex: number) => {
+			const rowString = row.map((cell: number) => padString(cell, 6)).join('');
+			return `${fuzzItem.query[rowIndex - 1] || ' '} ${rowString}`;
 		});
+		return [
+			`\nquery: ${fuzzItem.query}, subject: ${fuzzItem.subject}, editDistance: ${fuzzItem.editDistance}`,
+			`        ${tableHeader}`,
+			...tableRows,
+		].join('\n')
 	}
-
 }
 
-function padString(subject: any, padding: number) {
+
+function padString(subject: any, padding: number): string {
 	return (' '.repeat(padding) + subject).slice(-padding);
 }

@@ -6,4 +6,3 @@ export interface EditCosts {
 	preQueryInsertion: number;
 	postQueryInsertion: number;
 };
-
