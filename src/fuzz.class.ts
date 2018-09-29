@@ -13,13 +13,13 @@ export class Fuzz {
 	}
 
 	public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
-	public editThreshold: number = Fuzz.DEFAULT_EDIT_THRESHOLD;
+	public editDistancePerQueryLength: number = Fuzz.DEFAULT_EDIT_THRESHOLD;
 
 	public filterSort(
 		items: any[],
 		subjectKeys: string[],
 		query: string,
-		editDistancePerQueryLength: number = this.editThreshold,
+		editDistancePerQueryLength: number = this.editDistancePerQueryLength,
 	) {
 		const fuzzItems: FuzzItem[] = this.getFuzzItems(items, subjectKeys, query);
 		this.scoreFuzzItems(fuzzItems);
