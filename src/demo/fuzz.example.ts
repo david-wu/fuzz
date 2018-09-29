@@ -1,5 +1,6 @@
 
-import { Fuzz } from './fuzz.class';
+import { Fuzz } from '../fuzz.class';
+import { FuzzDebugger } from './fuzz-debugger.class';
 
 export function demoFuzz() {
 
@@ -8,7 +9,9 @@ export function demoFuzz() {
         'catatonic',
         'tonic',
         'taton',
-        'titon    '
+        'jcetf',
+        'c a t',
+        ' cat ',
     ];
 
     const testItems = testStrings.map((testString: string) => {
@@ -20,8 +23,10 @@ export function demoFuzz() {
     const fuzz = new Fuzz();
     const fuzzItems = fuzz.filterSort(testItems, ['label'], 'cat');
 
+    const fuzzDebugger = new FuzzDebugger();
+
     fuzzItems.forEach((fuzzItem) => {
-        console.log(fuzz.debugFuzzItem(fuzzItem));
+        console.log(fuzzDebugger.debugFuzzItem(fuzzItem));
     });
 }
 

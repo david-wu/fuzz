@@ -3,7 +3,7 @@
   "description": "fuzzy matching",
   "author": "David Wu <david.wuu@gmail.com>",
   "license": "MIT",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/out-js/index.js",
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -22,6 +22,6 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir dist/out-js --extensions \".ts,.tsx\" --source-maps inline",
     "watch": "babel --watch src --out-dir dist/out-js --extensions \".ts,.tsx\" --source-maps inline",
-    "nodemon": "nodemon dist/out-js/fuzz.example.js"
+    "demomon": "nodemon dist/out-js/demo/fuzz.example.js"
   }
 }

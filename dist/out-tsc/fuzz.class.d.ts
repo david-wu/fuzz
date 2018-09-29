@@ -10,5 +10,4 @@ export declare class Fuzz {
     scoreFuzzItems(fuzzItems: FuzzItem[]): void;
     getInitialEditMatrix(query: string, subject: string, editCosts: EditCosts): number[][];
     fillEditMatrix(matrix: number[][], query: string, subject: string, editCosts: EditCosts): number[][];
-    debugFuzzItem(fuzzItem: FuzzItem): string;
 }
