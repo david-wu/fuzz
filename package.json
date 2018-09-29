@@ -3,7 +3,8 @@
   "description": "fuzzy matching",
   "author": "David Wu <david.wuu@gmail.com>",
   "license": "MIT",
-  "version": "0.0.2",
+  "version": "0.0.3",
+  "main": "dist/out-js/index.js",
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
@@ -14,7 +15,6 @@
     "nodemon": "^1.18.4",
     "typescript": "^3.1.1"
   },
-  "main": "dist/out-js/index.js",
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
