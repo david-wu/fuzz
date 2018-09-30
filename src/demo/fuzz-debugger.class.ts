@@ -11,13 +11,16 @@ export class FuzzDebugger {
 
 	public debugFuzzItem(fuzzItem: FuzzItem): string {
 		return [
-			`\nQuery: ${fuzzItem.query}, subject: ${fuzzItem.subject}, editDistance: ${fuzzItem.editDistance}`,
-			'Edit Matrix:',
+			'\n=======================================\n',
+			`Query: ${fuzzItem.query}, subject: ${fuzzItem.subject}, editDistance: ${fuzzItem.editDistance}`,
+			'\nEdit Matrix:',
 			this.debugEditMatrix(fuzzItem),
-			'Operation Matrix:',
+			'\nOperation Matrix:',
 			this.debugOperationMatrix(fuzzItem),
-			'Match Locations:',
-			fuzzItem.matchLocations,
+			'\nMatch Locations:',
+			fuzzItem.matchLocations.join(', '),
+			'\nMatch String:',
+			fuzzItem.matchLocations.map((index: number) => fuzzItem.query[index]).join(''),
 		].join('\n')
 	}
 

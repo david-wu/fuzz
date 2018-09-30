@@ -19,7 +19,7 @@ export class Fuzz {
 		subjectKeys: string[],
 		query: string,
 		editDistancePerQueryLength: number = this.editDistancePerQueryLength,
-	) {
+	): FuzzItem[] {
 		const fuzzItems: FuzzItem[] = this.getFuzzItems(items, subjectKeys, query);
 		this.scoreFuzzItems(fuzzItems);
 		const filteredFuzzItems = fuzzItems.filter((fuzzItem: FuzzItem) => {
@@ -148,7 +148,7 @@ export class Fuzz {
 		return operationMatrix;
 	}
 
-	public getMatchLocations(operationMatrix: number[][]) {
+	public getMatchLocations(operationMatrix: number[][]): number[] {
 		let yLoc = operationMatrix.length - 1;
 		let xLoc = operationMatrix[0].length - 1;
 		let matchLocations = [];
@@ -168,16 +168,15 @@ export class Fuzz {
 				case 3:
 					yLoc--;
 					xLoc--;
-					matchLocations.push([yLoc]);
+					matchLocations.push(yLoc);
 			}
 		}
 		return matchLocations.reverse();
-
 	}
 
 }
 
-function getMinIndex(numbers: number[]) {
+function getMinIndex(numbers: number[]): number {
 	let minIndex = 0;
 	let minValue = numbers[0];
 	for (let nextIndex = 1; nextIndex < numbers.length; nextIndex++) {

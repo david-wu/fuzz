@@ -3,7 +3,7 @@
   "description": "fuzzy matching",
   "author": "David Wu <david.wuu@gmail.com>",
   "license": "MIT",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/out-js/index.js",
   "devDependencies": {
     "@babel/cli": "^7.0.0",
