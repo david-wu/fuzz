@@ -2,7 +2,7 @@ import { EditCosts, FuzzItem } from './models';
 
 export class Fuzz {
 
-	public static readonly DEFAULT_EDIT_THRESHOLD: number = 60;
+	public static readonly DEFAULT_EDIT_THRESHOLD: number = 45;
 	public static readonly DEFAULT_EDIT_COSTS: EditCosts = {
 		substitution: 141,
 		deletion: 100,
