@@ -20,7 +20,7 @@ export class FuzzDebugger {
 			'\nMatch Locations:',
 			fuzzItem.matchLocations.join(', '),
 			'\nMatch String:',
-			fuzzItem.matchLocations.map((index: number) => fuzzItem.query[index]).join(''),
+			fuzzItem.matchLocations.map((index: number) => fuzzItem.subject[index]).join(''),
 		].join('\n')
 	}
 

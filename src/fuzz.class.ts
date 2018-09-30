@@ -2,13 +2,13 @@ import { EditCosts, FuzzItem } from './models';
 
 export class Fuzz {
 
-	public static readonly DEFAULT_EDIT_THRESHOLD: number = 40;
+	public static readonly DEFAULT_EDIT_THRESHOLD: number = 60;
 	public static readonly DEFAULT_EDIT_COSTS: EditCosts = {
 		substitution: 141,
 		deletion: 100,
 		insertion: 100,
-		preQueryInsertion: 10,
-		postQueryInsertion: 5,
+		preQueryInsertion: 4,
+		postQueryInsertion: 2,
 	}
 
 	public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
@@ -170,7 +170,7 @@ export class Fuzz {
 				case 3:
 					yLoc--;
 					xLoc--;
-					matchLocations.push(yLoc);
+					matchLocations.push(xLoc);
 			}
 		}
 		return matchLocations.reverse();

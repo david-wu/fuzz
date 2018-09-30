@@ -22,7 +22,7 @@ export function demoFuzz() {
     });
 
     const fuzz = new Fuzz();
-    const fuzzItems = fuzz.filterSort(testItems, ['label'], '');
+    const fuzzItems = fuzz.filterSort(testItems, ['label'], 'version');
 
     const fuzzDebugger = new FuzzDebugger();
 
