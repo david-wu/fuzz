@@ -5,4 +5,6 @@ export interface FuzzItem {
     query: string;
     editMatrix: number[][];
     editDistance: number;
+    operationMatrix: number[][];
+    matchLocations: number[];
 }
