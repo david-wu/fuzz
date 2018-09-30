@@ -72,10 +72,11 @@ export class Fuzz {
 				fuzzItem.subject,
 				this.editCosts,
 			);
+			const matchLocations = this.getMatchLocations(operationMatrix);
 			fuzzItem.editMatrix = editMatrix;
 			fuzzItem.editDistance = editMatrix[editMatrix.length - 1][editMatrix[0].length - 1];
 			fuzzItem.operationMatrix = operationMatrix;
-
+			fuzzItem.matchLocations = matchLocations;
 		});
 	}
 
@@ -147,11 +148,30 @@ export class Fuzz {
 		return operationMatrix;
 	}
 
-	public getSubstitutionOperations(operationMatrix: number[][]) {
+	public getMatchLocations(operationMatrix: number[][]) {
 		let yLoc = operationMatrix.length - 1;
 		let xLoc = operationMatrix[0].length - 1;
-		let substitutionOperations = [];
+		let matchLocations = [];
 
+		while (yLoc !== 0 || xLoc !== 0) {
+			switch(operationMatrix[yLoc][xLoc]) {
+				case 0:
+					yLoc--
+					break;
+				case 1:
+					xLoc--;
+					break;
+				case 2:
+					yLoc--;
+					xLoc--;
+					break;
+				case 3:
+					yLoc--;
+					xLoc--;
+					matchLocations.push([yLoc]);
+			}
+		}
+		return matchLocations.reverse();
 
 	}
 
