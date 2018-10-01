@@ -78,7 +78,7 @@ export class Fuzz {
 			fuzzItem.editMatrix = editMatrix;
 			fuzzItem.editDistance = editMatrix[editMatrix.length - 1][editMatrix[0].length - 1];
 			fuzzItem.operationMatrix = operationMatrix;
-			fuzzItem.matchLocations = matchLocations;
+			fuzzItem.subjectMatchIndexSet = new Set(matchLocations);
 		});
 	}
 
