@@ -74,11 +74,11 @@ export class Fuzz {
 				fuzzItem.subject,
 				this.editCosts,
 			);
-			const matchLocations = this.getMatchLocations(operationMatrix);
+			const matchRanges = this.getMatchRanges(operationMatrix);
 			fuzzItem.editMatrix = editMatrix;
 			fuzzItem.editDistance = editMatrix[editMatrix.length - 1][editMatrix[0].length - 1];
 			fuzzItem.operationMatrix = operationMatrix;
-			fuzzItem.subjectMatchIndexSet = new Set(matchLocations);
+			fuzzItem.matchRanges = matchRanges
 		});
 	}
 
@@ -150,30 +150,50 @@ export class Fuzz {
 		return operationMatrix;
 	}
 
-	public getMatchLocations(operationMatrix: number[][]): number[] {
+	public getMatchRanges(operationMatrix: number[][]): number[][] {
 		let yLoc = operationMatrix.length - 1;
 		let xLoc = operationMatrix[0].length - 1;
-		let matchLocations = [];
+		let matchRanges: number[][] = [];
+		let range: number[];
 
 		while (yLoc !== 0 || xLoc !== 0) {
 			switch(operationMatrix[yLoc][xLoc]) {
 				case 0:
 					yLoc--
+					// deleting a character from subject does not break the matchRange streak
 					break;
 				case 1:
 					xLoc--;
+					if (range) {
+						matchRanges.push(range);
+						range = undefined;
+					}
 					break;
 				case 2:
 					yLoc--;
 					xLoc--;
+					if (range) {
+						matchRanges.push(range);
+						range = undefined;
+					}
 					break;
 				case 3:
 					yLoc--;
 					xLoc--;
-					matchLocations.push(xLoc);
+					if (range) {
+						// continues matchRange streak
+						range[0] = xLoc;
+					} else {
+						// starts the matchRange streak
+						range = [xLoc, xLoc];
+					}
+					break;
 			}
 		}
-		return matchLocations.reverse();
+		if (range) {
+			matchRanges.push(range);
+		}
+		return matchRanges.reverse();
 	}
 
 }

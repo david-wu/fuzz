@@ -7,5 +7,5 @@ export interface FuzzItem {
 	editMatrix: number[][],
 	editDistance: number,
 	operationMatrix: number[][],
-	subjectMatchIndexSet: Set<number>,
+	matchRanges: number[][],
 };

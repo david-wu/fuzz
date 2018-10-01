@@ -17,10 +17,8 @@ export class FuzzDebugger {
 			this.debugEditMatrix(fuzzItem),
 			'\nOperation Matrix:',
 			this.debugOperationMatrix(fuzzItem),
-			'\nMatch Locations:',
-			[...fuzzItem.subjectMatchIndexSet].join(', '),
-			'\nMatch String:',
-			[...fuzzItem.subjectMatchIndexSet].map((index: number) => fuzzItem.subject[index]).join(''),
+			'\nMatch Ranges:',
+			this.debugMatchRanges(fuzzItem.matchRanges),
 		].join('\n')
 	}
 
@@ -46,6 +44,12 @@ export class FuzzDebugger {
 			`        ${tableHeader}`,
 			...tableRows,
 		].join('\n')
+	}
+
+	public debugMatchRanges(ranges: number[][]) {
+		return ranges.map((range: number[]) => {
+			return `[${range.join(', ')}]`;
+		}).join(', ');
 	}
 
 }
