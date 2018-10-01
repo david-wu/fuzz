@@ -18,9 +18,9 @@ export class FuzzDebugger {
 			'\nOperation Matrix:',
 			this.debugOperationMatrix(fuzzItem),
 			'\nMatch Locations:',
-			fuzzItem.matchLocations.join(', '),
+			[...fuzzItem.subjectMatchIndexSet].join(', '),
 			'\nMatch String:',
-			fuzzItem.matchLocations.map((index: number) => fuzzItem.subject[index]).join(''),
+			[...fuzzItem.subjectMatchIndexSet].map((index: number) => fuzzItem.subject[index]).join(''),
 		].join('\n')
 	}
 
