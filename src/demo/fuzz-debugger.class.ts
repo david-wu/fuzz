@@ -12,7 +12,7 @@ export class FuzzDebugger {
 	public debugFuzzItem(fuzzItem: FuzzItem): string {
 		return [
 			'\n=======================================\n',
-			`Query: ${fuzzItem.query}, subject: ${fuzzItem.subject}, editDistance: ${fuzzItem.editDistance}`,
+			`Query: ${fuzzItem.query}, subject: ${fuzzItem.subject}, key: ${fuzzItem.key}, editDistance: ${fuzzItem.editDistance}`,
 			'\nEdit Matrix:',
 			this.debugEditMatrix(fuzzItem),
 			'\nOperation Matrix:',

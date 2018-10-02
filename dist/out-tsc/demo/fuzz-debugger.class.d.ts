@@ -6,4 +6,5 @@ export declare class FuzzDebugger {
     debugFuzzItem(fuzzItem: FuzzItem): string;
     debugEditMatrix(fuzzItem: FuzzItem): string;
     debugOperationMatrix(fuzzItem: FuzzItem): string;
+    debugMatchRanges(ranges: number[][]): string;
 }

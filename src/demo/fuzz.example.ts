@@ -17,12 +17,13 @@ export function demoFuzz() {
 
     const testItems = testStrings.map((testString: string) => {
         return {
+            randomKey: 'da version cat',
             label: testString,
         };
     });
 
     const fuzz = new Fuzz();
-    const fuzzItems = fuzz.filterSort(testItems, ['label'], 'version');
+    const fuzzItems = fuzz.filterSort(testItems, ['label', 'randomKey'], 'version');
 
     const fuzzDebugger = new FuzzDebugger();
 
