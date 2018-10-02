@@ -2,7 +2,6 @@ import { EditCosts, FuzzItem } from './models';
 
 export class Fuzz {
 
-	public static readonly DEFAULT_EDIT_THRESHOLD: number = 45;
 	public static readonly DEFAULT_EDIT_COSTS: EditCosts = {
 		substitution: 141,
 		deletion: 100,
@@ -10,24 +9,26 @@ export class Fuzz {
 		preQueryInsertion: 4,
 		postQueryInsertion: 2,
 	}
+	// edit distance allowed per query length
+	public static readonly DEFAULT_FILTER_THRESHOLD: number = 45;
 
 	public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
-	public editDistancePerQueryLength: number = Fuzz.DEFAULT_EDIT_THRESHOLD;
+	public filterThreshold: number = Fuzz.DEFAULT_FILTER_THRESHOLD;
 
 	public filterSort(
 		items: any[],
 		subjectKeys: string[],
 		query: string,
-		editDistancePerQueryLength: number = this.editDistancePerQueryLength,
+		filterThreshold: number = this.filterThreshold,
 	): FuzzItem[] {
 		const fuzzItems: FuzzItem[] = this.getFuzzItems(items, subjectKeys, query);
 		this.scoreFuzzItems(fuzzItems);
 		if (!query) { return fuzzItems; }
 		const filteredFuzzItems = fuzzItems.filter((fuzzItem: FuzzItem) => {
-			return fuzzItem.editDistance <= (editDistancePerQueryLength * fuzzItem.query.length);
+			return fuzzItem.editDistance <= (filterThreshold * fuzzItem.query.length);
 		});
 		filteredFuzzItems.sort((a: FuzzItem, b: FuzzItem) => a.editDistance - b.editDistance);
-		return filteredFuzzItems;
+		return uniqBy(filteredFuzzItems, (fuzzItem: FuzzItem) => fuzzItem.original);
 	}
 
 	public sort(
@@ -39,7 +40,7 @@ export class Fuzz {
 		this.scoreFuzzItems(fuzzItems);
 		if (!query) { return fuzzItems; }
 		fuzzItems.sort((a: FuzzItem, b: FuzzItem) => a.editDistance - b.editDistance);
-		return fuzzItems;
+		return uniqBy(fuzzItems, (fuzzItem: FuzzItem) => fuzzItem.original);
 	}
 
 	public getFuzzItems(
@@ -196,6 +197,26 @@ export class Fuzz {
 		return matchRanges.reverse();
 	}
 
+}
+
+function uniqBy(
+	items: any[],
+	getItemKey: (item: any) => any = identity,
+) {
+	const itemKeySet = new Set();
+	return items.filter((item: any) => {
+		const key = getItemKey(item);
+		if (itemKeySet.has(key)) {
+			return false;
+		} else {
+			itemKeySet.add(key);
+			return true;
+		}
+	})
+}
+
+function identity(item: any) {
+	return item;
 }
 
 function getMinIndex(numbers: number[]): number {
