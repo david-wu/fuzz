@@ -12,6 +12,7 @@ export class Fuzz {
 	// edit distance allowed per query length
 	public static readonly DEFAULT_FILTER_THRESHOLD: number = 45;
 
+	public isCaseSensitive: boolean = false;
 	public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
 	public filterThreshold: number = Fuzz.DEFAULT_FILTER_THRESHOLD;
 
@@ -51,11 +52,12 @@ export class Fuzz {
 		const fuzzItems: FuzzItem[] = [];
 		items.forEach((item: any) => {
 			subjectKeys.forEach((key: string) => {
+				const subject = get(item, key);
 				fuzzItems.push({
 					original: item,
 					key: key,
-					subject: item[key].toLowerCase(),
-					query: query.toLowerCase(),
+					subject: this.isCaseSensitive ? subject : subject.toLowerCase(),
+					query: this.isCaseSensitive ? query : query.toLowerCase(),
 				} as FuzzItem);
 			});
 		});
@@ -197,6 +199,17 @@ export class Fuzz {
 		return matchRanges.reverse();
 	}
 
+}
+
+function get(
+	item: any,
+	keysString: string,
+) {
+	const keys = keysString.split('.');
+	for(let i = 0; i < keys.length; i++) {
+		item = item[keys[i]]
+	}
+	return item;
 }
 
 function uniqBy(
