@@ -12,7 +12,7 @@ import { DemoPageComponent } from './demo-page/demo-page.component';
     DemoPageComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
     CommonModule,
     FormsModule,
   ],

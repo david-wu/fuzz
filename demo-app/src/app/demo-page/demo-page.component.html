@@ -1,10 +1,23 @@
-<p>
-  demo-page works!
-</p>
 
 
-<input type="text" [ngModel]="filterSortQuery" (ngModelChange)="onFilterSortQueryChange($event)">
+<div class="demo-container">
+	<div class="demo-container-header">
+		<input
+			type="text"
+			[ngModel]="filterSortQuery"
+			(ngModelChange)="onFilterSortQueryChange($event)"
+			placeholder="Do a search.."
+		>
+		<div class="sort-time">search took: {{ filterSortTime }}ms</div>
+	</div>
+	<div class="results-container">
+		<div *ngFor="let filterSortedItem of filterSortedItems">
+			{{ filterSortedItem.subject }}
+		</div>
+	</div>
+</div>
 
-<div *ngFor="let filterSortedItem of filterSortedItems">
-	{{ filterSortedItem.subject }}
+<div class="fuse-data-container">
+	<div class="fuse-data-header">all items</div>
+	<pre>{{ allItems | json }}</pre>
 </div>
