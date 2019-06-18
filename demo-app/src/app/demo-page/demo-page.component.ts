@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Fuzz, FuzzItem } from 'fuzz-js'
+import { Fuzz, FuzzItem } from 'fuzz-js';
 
 import { fuseData } from './fuse.json';
 
@@ -13,6 +13,7 @@ export class DemoPageComponent {
   public fuzz = new Fuzz();
   public allItems = fuseData;
   public filterSortQuery: string = '';
+  public filterSortKeys = ['title', 'author.firstName', 'author.lastName'];
   public filterSortedItems: FuzzItem[];
   public filterSortTime: number = 0;
 
@@ -30,9 +31,26 @@ export class DemoPageComponent {
   public onFilterSortQueryChange(filterSortQuery: string) {
     this.filterSortQuery = filterSortQuery;
     this.filterSortTime = Date.now();
-    this.filterSortedItems = this.fuzz.filterSort(this.allItems, ['title'], filterSortQuery);
+    this.filterSortedItems = this.fuzz.filterSort(this.allItems, ['title', 'author.firstName'], filterSortQuery);
     this.filterSortTime = Date.now() - this.filterSortTime;
-    console.log(this.filterSortedItems)
   }
 
+
+  /**
+   * get
+   * remove this
+   * @param {any}    item
+   * @param {string} keysString
+   * @param {[type]}
+   */
+  public get(
+    item: any,
+    keysString: string,
+  ) {
+    const keys = keysString.split('.');
+    for(let i = 0; i < keys.length; i++) {
+      item = item[keys[i]]
+    }
+    return item;
+  }
 }

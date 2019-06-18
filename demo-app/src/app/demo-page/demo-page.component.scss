@@ -9,7 +9,8 @@
 
 	.demo-container {
 		padding: 1rem;
-		flex: 1 1 auto;
+		flex: 1 1 0;
+		overflow: auto;
 		display: flex;
 		flex-direction: column;
 		.demo-container-header {
@@ -35,7 +36,8 @@
 
 	.fuse-data-container {
 		padding: 1rem;
-		flex: 1 1 auto;
+		flex: 1 1 0;
+		overflow: auto;
 		display: flex;
 		flex-direction: column;
 
@@ -50,5 +52,12 @@
 			overflow: auto;
 			border: 1px solid #6666;
 		}
+	}
+}
+
+table {
+	th, td {
+		padding: 0.25rem 0.5rem;
+		min-width: 10rem;
 	}
 }

@@ -24,10 +24,12 @@ export class Fuzz {
 	): FuzzItem[] {
 		const fuzzItems: FuzzItem[] = this.getFuzzItems(items, subjectKeys, query);
 		this.scoreFuzzItems(fuzzItems);
-		if (!query) { return fuzzItems; }
-		const filteredFuzzItems = fuzzItems.filter((fuzzItem: FuzzItem) => {
-			return fuzzItem.editDistance <= (filterThreshold * fuzzItem.query.length);
-		});
+		let filteredFuzzItems = fuzzItems;
+		if (query) {
+			filteredFuzzItems = fuzzItems.filter((fuzzItem: FuzzItem) => {
+				return fuzzItem.editDistance <= (filterThreshold * fuzzItem.query.length);
+			});
+		}
 		filteredFuzzItems.sort((a: FuzzItem, b: FuzzItem) => a.editDistance - b.editDistance);
 		return uniqBy(filteredFuzzItems, (fuzzItem: FuzzItem) => fuzzItem.original);
 	}
@@ -39,7 +41,6 @@ export class Fuzz {
 	): FuzzItem[] {
 		const fuzzItems: FuzzItem[] = this.getFuzzItems(items, subjectKeys, query);
 		this.scoreFuzzItems(fuzzItems);
-		if (!query) { return fuzzItems; }
 		fuzzItems.sort((a: FuzzItem, b: FuzzItem) => a.editDistance - b.editDistance);
 		return uniqBy(fuzzItems, (fuzzItem: FuzzItem) => fuzzItem.original);
 	}
