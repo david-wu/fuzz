@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Fuzz, FuzzItem } from 'fuzz-js';
 
 import { fuseData } from './fuse.json';
@@ -10,6 +10,14 @@ import { fuseData } from './fuse.json';
 })
 export class DemoPageComponent {
 
+  @ViewChild('fuzzSearchTab') fuzzSearchTab;
+  @ViewChild('fuzzSearchPage') fuzzSearchPage;
+  @ViewChild('fuseDataTab') fuseDataTab;
+  @ViewChild('fuseDataPage') fuseDataPage;
+
+  public headerTabs: any[] = [];
+  public headerTabsLeft = [];
+
   public fuzz = new Fuzz();
   public allItems = fuseData;
   public filterSortQuery: string = '';
@@ -17,11 +25,29 @@ export class DemoPageComponent {
   public filterSortedItems: FuzzItem[];
   public filterSortTime: number = 0;
 
+
   /**
    * constructor
    */
-  constructor() {
+  constructor(
+    public changeDetectorRef: ChangeDetectorRef,
+  ) {
     this.onFilterSortQueryChange(this.filterSortQuery);
+  }
+
+  public ngAfterViewInit() {
+    this.headerTabsLeft = [
+      {
+        tabTemplate: this.fuzzSearchTab,
+        pageTemplate: this.fuzzSearchPage,
+      },
+      {
+        tabTemplate: this.fuseDataTab,
+        pageTemplate: this.fuseDataPage,
+      }
+    ];
+    this.changeDetectorRef.detectChanges();
+    console.log(this.headerTabs)
   }
 
   /**
@@ -31,8 +57,9 @@ export class DemoPageComponent {
   public onFilterSortQueryChange(filterSortQuery: string) {
     this.filterSortQuery = filterSortQuery;
     this.filterSortTime = Date.now();
-    this.filterSortedItems = this.fuzz.filterSort(this.allItems, ['title', 'author.firstName'], filterSortQuery);
+    this.filterSortedItems = this.fuzz.filterSort(this.allItems, this.filterSortKeys, filterSortQuery);
     this.filterSortTime = Date.now() - this.filterSortTime;
+    console.log('this.filterSortedItems', this.filterSortedItems)
   }
 
 

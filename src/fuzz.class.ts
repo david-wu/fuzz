@@ -16,6 +16,11 @@ export class Fuzz {
 	public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
 	public filterThreshold: number = Fuzz.DEFAULT_FILTER_THRESHOLD;
 
+	// todo: reuse matrices to reduce gc
+	// alternative would be a set of flags like
+	// 'omitEditMatrix', 'omitOperationMatrix', 'omitMatchRanges'
+	public performanceMode: boolean;
+
 	public filterSort(
 		items: any[],
 		subjectKeys: string[],

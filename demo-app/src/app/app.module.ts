@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { DemoPageComponent } from './demo-page/demo-page.component';
+import { TabbedWindowComponent } from './tabbed-window/tabbed-window.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DemoPageComponent
+    DemoPageComponent,
+    TabbedWindowComponent
   ],
   imports: [
     BrowserModule,
