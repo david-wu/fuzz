@@ -11,9 +11,18 @@
 		<div class="sort-time">search took: {{ filterSortTime }}ms</div>
 	</div>
 	<div class="results-container">
-		<div *ngFor="let filterSortedItem of filterSortedItems">
-			{{ filterSortedItem.subject }}
-		</div>
+		<table>
+			<tr>
+				<th *ngFor="let filterSortKey of filterSortKeys">
+					{{ filterSortKey }}
+				</th>
+			</tr>
+			<tr *ngFor="let filterSortedItem of filterSortedItems">
+				<td *ngFor="let filterSortKey of filterSortKeys">
+					{{ get(filterSortedItem.original, filterSortKey) }}
+				</td>
+			</tr>
+		</table>
 	</div>
 </div>
 
