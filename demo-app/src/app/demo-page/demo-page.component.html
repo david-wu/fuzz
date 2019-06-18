@@ -1,0 +1,10 @@
+<p>
+  demo-page works!
+</p>
+
+
+<input type="text" [ngModel]="filterSortQuery" (ngModelChange)="onFilterSortQueryChange($event)">
+
+<div *ngFor="let filterSortedItem of filterSortedItems">
+	{{ filterSortedItem.subject }}
+</div>
