@@ -1,0 +1,29 @@
+
+:host {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	.header-tabs {
+		flex: 0 0 auto;
+		display: flex;
+		background-color: #e8e8e8;
+		.header-tab {
+			padding: 0.5rem 0.5rem;
+			border-right: 1px solid #dddddd;
+			cursor: pointer;
+			background-color: #eeeeee;
+			&:hover {
+				background-color: #f8f8f8;
+			}
+			&.active {
+				background-color: #ffffff;
+			}
+		}
+	}
+	.active-tab-content-container {
+		flex: 1 1 0;
+		overflow: auto;
+	}
+}

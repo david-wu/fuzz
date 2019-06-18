@@ -1,0 +1,16 @@
+
+<div class="header-tabs">
+	<div
+		*ngFor="let headerTab of headerTabs"
+		class="header-tab"
+		[class.active]="headerTab === activeTab"
+		(click)="activeTab = headerTab"
+	>
+		<ng-container *ngTemplateOutlet="headerTab.tabTemplate"></ng-container>
+	</div>
+</div>
+<div class="active-tab-content-container">
+	<div class="page-content" *ngIf="activeTab">
+		<ng-container *ngTemplateOutlet="activeTab.pageTemplate"></ng-container>
+	</div>
+</div>

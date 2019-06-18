@@ -1,6 +1,58 @@
 
 
-<div class="demo-container">
+
+<app-tabbed-window
+	*ngIf="headerTabsLeft"
+	[headerTabs]="headerTabsLeft"
+	[activeTab]="headerTabsLeft[0]"
+></app-tabbed-window>
+<app-tabbed-window
+	*ngIf="headerTabsLeft"
+	[headerTabs]="headerTabsLeft"
+	[activeTab]="headerTabsLeft[1]"
+></app-tabbed-window>
+
+<ng-template #fuzzSearchTab>
+	fuzz-js-search-tab
+</ng-template>
+<ng-template #fuzzSearchPage>
+	<div class="demo-container">
+		<div class="demo-container-header">
+			<input
+				type="text"
+				[ngModel]="filterSortQuery"
+				(ngModelChange)="onFilterSortQueryChange($event)"
+				placeholder="Do a search.."
+			>
+			<div class="sort-time">search took: {{ filterSortTime }}ms</div>
+		</div>
+		<div class="results-container">
+			<table>
+				<tr>
+					<th *ngFor="let filterSortKey of filterSortKeys">
+						{{ filterSortKey }}
+					</th>
+				</tr>
+				<tr *ngFor="let filterSortedItem of filterSortedItems">
+					<td
+						*ngFor="let filterSortKey of filterSortKeys"
+						[class.matched]="filterSortedItem.key === filterSortKey"
+					>
+						{{ get(filterSortedItem.original, filterSortKey) }}
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #fuseDataTab>
+	fuse-data-tab
+</ng-template>
+<ng-template #fuseDataPage>
+		<pre>{{ allItems | json }}</pre>
+</ng-template>
+<!-- <div class="demo-container">
 	<div class="demo-container-header">
 		<input
 			type="text"
@@ -18,7 +70,10 @@
 				</th>
 			</tr>
 			<tr *ngFor="let filterSortedItem of filterSortedItems">
-				<td *ngFor="let filterSortKey of filterSortKeys">
+				<td
+					*ngFor="let filterSortKey of filterSortKeys"
+					[class.matched]="filterSortedItem.key === filterSortKey"
+				>
 					{{ get(filterSortedItem.original, filterSortKey) }}
 				</td>
 			</tr>
@@ -30,3 +85,4 @@
 	<div class="fuse-data-header">all items</div>
 	<pre>{{ allItems | json }}</pre>
 </div>
+ -->
