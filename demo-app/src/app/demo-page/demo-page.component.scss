@@ -17,18 +17,21 @@
 	}
 
 	.demo-container {
-		padding: 1rem;
-		flex: 1 1 0;
-		overflow: auto;
+		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		.demo-container-header {
-			height: 1.5rem;
-			margin-bottom: 0.5rem;
 			flex: 0 0 auto;
+			padding: 0.5rem 1rem;
+			border-bottom: 1px solid #dddddd;
+			margin-bottom: 0.5rem;
 			display: flex;
+			align-items: center;
 			input {
+				padding: 0.5rem 0.25rem;
 				flex: 1 1 auto;
+				height: 1.5rem;
 			}
 			.sort-time {
 				padding: 0 1rem;
@@ -39,28 +42,29 @@
 		.results-container {
 			flex: 1 1 auto;
 			overflow: auto;
-			border: 1px solid #6666;
+			table {
+				border-collapse: collapse;
+				width: 100%;
+				tr:not(:first-child) {
+					&:hover {
+						background-color: #aacccc;
+					}
+					&.selected {
+						background-color: #aaddee;
+					}
+				}
+				th, td {
+					padding: 0.25rem 0.5rem;
+					min-width: 10rem;
+				}
+			}
 		}
 	}
 
-	// .fuse-data-container {
-		pre {
-			padding: 1rem;
-			flex: 1 1 auto;
-			margin: 0;
-			overflow: auto;
-			// border: 1px solid #6666;
-		}
-	// }
-}
-
-table {
-	border-collapse: collapse;
-	th, td {
-		padding: 0.25rem 0.5rem;
-		min-width: 10rem;
-		&.matched {
-			background-color: #eeee;
-		}
+	pre {
+		padding: 1rem;
+		flex: 1 1 auto;
+		margin: 0;
+		overflow: auto;
 	}
 }

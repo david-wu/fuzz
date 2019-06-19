@@ -9,8 +9,6 @@
 		<ng-container *ngTemplateOutlet="headerTab.tabTemplate"></ng-container>
 	</div>
 </div>
-<div class="active-tab-content-container">
-	<div class="page-content" *ngIf="activeTab">
-		<ng-container *ngTemplateOutlet="activeTab.pageTemplate"></ng-container>
-	</div>
+<div class="active-tab-content-container" *ngIf="activeTab">
+	<ng-container *ngTemplateOutlet="activeTab.pageTemplate"></ng-container>
 </div>
