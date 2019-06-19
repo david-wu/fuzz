@@ -3,30 +3,29 @@ import { FuzzStringStyler } from './fuzz-string-styler.class';
 import { FuzzDeepKeyFinder } from './fuzz-deep-key-finder.class';
 
 
+/**
+ * Fuzz
+ */
 export class Fuzz {
 
+  public static readonly DEFAULT_FILTER_THRESHOLD: number = 0.5;
   public static readonly DEFAULT_EDIT_COSTS: EditCosts = {
     substitution: 141,
     deletion: 100,
     insertion: 100,
     preQueryInsertion: 1,
-    postQueryInsertion: 1,
+    postQueryInsertion: 0,
   }
-  // edit distance allowed per query length
-  public static readonly DEFAULT_FILTER_THRESHOLD: number = 0.5;
   public static getAllKeys (items: any[]) {
     const fdkf = new FuzzDeepKeyFinder();
     return fdkf.getAllKeys(items);
   }
 
   public isCaseSensitive: boolean = false;
-  public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
+  public startDecorator = '<b>';
+  public endDecorator = '</b>';
   public filterThreshold: number = Fuzz.DEFAULT_FILTER_THRESHOLD;
-
-  // todo: reuse matrices to reduce gc
-  // alternative would be a set of flags like
-  // 'omitEditMatrix', 'omitOperationMatrix', 'omitOperationMatrix'
-  public performanceMode: boolean;
+  public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
   public omitEditMatrix: boolean = true;
   public omitOperationMatrix: boolean = true;
 
@@ -41,15 +40,26 @@ export class Fuzz {
     subjectKeys?: string[],
     filterThreshold: number = this.filterThreshold,
   ): FuzzItem[] {
-    const fuzzItems = this.getScoredFuzzItems(items, query, subjectKeys);
-
-    let filteredFuzzItems = fuzzItems;
+    let filteredFuzzItems = this.getScoredFuzzItems(items, query, subjectKeys);
     if (query) {
-      filteredFuzzItems = fuzzItems
+      filteredFuzzItems = filteredFuzzItems
         .filter((fuzzItem: FuzzItem) => fuzzItem.score >= filterThreshold)
         .sort((a: FuzzItem, b: FuzzItem) => b.score - a.score);
     }
+    return uniqBy(filteredFuzzItems, (fuzzItem: FuzzItem) => fuzzItem.original);
+  }
 
+  public filter(
+    items: any[],
+    query: string,
+    subjectKeys?: string[],
+    filterThreshold: number = this.filterThreshold,
+  ): FuzzItem[] {
+    let filteredFuzzItems = this.getScoredFuzzItems(items, query, subjectKeys);
+    if (query) {
+      filteredFuzzItems = filteredFuzzItems
+        .filter((fuzzItem: FuzzItem) => fuzzItem.score >= filterThreshold);
+    }
     return uniqBy(filteredFuzzItems, (fuzzItem: FuzzItem) => fuzzItem.original);
   }
 
@@ -62,7 +72,6 @@ export class Fuzz {
     if (query) {
       fuzzItems.sort((a: FuzzItem, b: FuzzItem) => b.score - a.score);
     }
-
     return uniqBy(fuzzItems, (fuzzItem: FuzzItem) => fuzzItem.original);
   }
 
@@ -132,7 +141,12 @@ export class Fuzz {
       fuzzItem.editDistance = editMatrix[editMatrix.length - 1][editMatrix[0].length - 1];
       fuzzItem.score = ((worstPossibleEditDistance - fuzzItem.editDistance) / worstPossibleEditDistance);
       fuzzItem.matchRanges = matchRanges;
-      fuzzItem.styledString = this.stringStyler.styleWithBoldTags(fuzzItem.subject, matchRanges)
+      fuzzItem.styledString = this.stringStyler.styleWithTags(
+        fuzzItem.subject,
+        matchRanges,
+        this.startDecorator,
+        this.endDecorator,
+      )
     });
   }
 
@@ -158,6 +172,11 @@ export class Fuzz {
     return initialEditMatrix;
   }
 
+  /**
+   * fillEditMatrix
+   * todo: reuse matrices to reduce gc
+   * @return {number[]}
+   */
   public fillEditMatrix(
     matrix: number[][],
     query: string,

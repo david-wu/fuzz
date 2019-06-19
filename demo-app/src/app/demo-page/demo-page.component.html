@@ -6,24 +6,25 @@
 <app-tabbed-window
   *ngIf="headerTabsRight"
   [headerTabs]="headerTabsRight"
-  [activeTab]="selectedRightHeaderTab"
+  [activeTab]="selectedFuzzItem ? headerTabsRight[2]: selectedRightHeaderTab"
   (activeTabChange)="selectedRightHeaderTab = $event"
 ></app-tabbed-window>
 
 <ng-template #fuzzSearchResultsTab>
-  FuzzJs Search Results
+  Search Results
 </ng-template>
 <ng-template #fuzzSearchResultsPage>
   <pre>{{ filterSortedItems | json}}</pre>
 </ng-template>
 
 <ng-template #fuzzSearchTab>
-  FuzzJs Search
+  FuzzJs Search Demo
 </ng-template>
 <ng-template #fuzzSearchPage>
   <div class="demo-container">
     <div class="demo-container-header">
       <input
+        autofocus
         type="text"
         [ngModel]="filterSortQuery"
         (ngModelChange)="onFilterSortQueryChange($event)"
@@ -65,7 +66,7 @@
 </ng-template>
 
 <ng-template #fuzzSearchOptionsTab>
-  FuzzJs Search Options
+  Search Options
 </ng-template>
 <ng-template #fuzzSearchOptionsPage>
   <p>todo, probably add a form here, then generate some sample code beneath</p>
@@ -76,7 +77,7 @@
   <pre>{{ allItems | json }}</pre>
 </ng-template>
 
-<ng-template #fuzzItemDebuggerTab>Selected Fuzz Item</ng-template>
+<ng-template #fuzzItemDebuggerTab>Selected FuzzItem</ng-template>
 <ng-template #fuzzItemDebuggerPage>
   <pre *ngIf="selectedFuzzItem">{{ selectedFuzzItem | json }}</pre>
   <p *ngIf="!selectedFuzzItem"> Select an item from FuzzJs Search</p>

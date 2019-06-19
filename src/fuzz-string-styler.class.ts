@@ -1,12 +1,17 @@
 
 export class FuzzStringStyler {
 
-  public styleWithBoldTags(targetString, matchRanges) {
-    const stringStyles = matchRanges.map((range) => {
+  public styleWithTags(
+    targetString: string,
+    matchRanges: any[],
+    startDecorator: string,
+    endDecorator: string,
+  ) {
+    const stringStyles = matchRanges.map((range: any) => {
       return {
         range,
-        startDecorator: '<b>',
-        endDecorator: '</b>',
+        startDecorator,
+        endDecorator,
       };
     });
     return this.styleString(targetString, stringStyles);
