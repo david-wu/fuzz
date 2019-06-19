@@ -1,0 +1,39 @@
+<div class="legend">
+  <div class="legend-entry">
+    <div class="cell del"></div>
+    <label>delete</label>
+  </div>
+  <div class="legend-entry">
+    <div class="cell ins"></div>
+    <label>insert</label>
+  </div>
+  <div class="legend-entry">
+    <div class="cell sub"></div>
+    <label>substitute</label>
+  </div>
+  <div class="legend-entry">
+    <div class="cell nop"></div>
+    <label>no op</label>
+  </div>
+</div>
+<div class="matrix">
+  <div class="label-row row">
+    <div *ngFor="let subjectChar of subjectArr" class="cell">
+      {{ subjectChar }}
+    </div>
+  </div>
+
+  <div *ngFor="let row of fuzzalytics.operationMatrix; let rowIndex = index;" class="row">
+    <div class="cell">
+      {{ queryArr[rowIndex + 1] }}
+    </div>
+    <div
+      *ngFor="let cell of row; let colIndex = index;"
+      class="cell"
+      [class.del]="cell === 0"
+      [class.ins]="cell === 1"
+      [class.sub]="cell === 2"
+      [class.nop]="cell === 3"
+    >{{ traversedCellsIndex[rowIndex][colIndex] ? 'o' : '' }}</div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+:host {
+  display: flex;
+  align-items: center;
+}
+
+.matrix {
+  display: flex;
+  flex-direction: column;
+  .row {
+    // flex: 1 1 0;
+    display: flex;
+  }
+  border: 1px solid #eeeeee;
+}
+
+.legend {
+  padding: 0.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  .legend-entry {
+    margin: 0.25rem 0.5rem;
+    display: flex;
+    align-items: center;
+    .cell {
+      border: 1px solid #bbbbbb;
+      margin-right: 0.25rem;
+      border-radius: 3px;
+      width: 0.75rem;
+      height: 0.75rem;
+      min-width: 0.75rem;
+      min-height: 0.75rem;
+      line-height: 0.75rem;
+    }
+  }
+}
+
+.cell {
+  // flex: 1 1 0;
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border: 1px solid #eeeeee;
+  &.del {
+    background-color: #ffdddd;
+  }
+  &.ins {
+    background-color: #ddffdd;
+  }
+  &.sub {
+    background-color: #ffffdd;
+  }
+  &.nop {
+    background-color: #ffffff;
+  }
+
+}

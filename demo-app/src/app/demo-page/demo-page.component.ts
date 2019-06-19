@@ -1,7 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { Fuzz, FuzzItem, FuzzDebugger } from 'fuzz-js';
+import { BreakpointObserver, Breakpoints, MediaMatcher } from '@angular/cdk/layout';
+import * as faker from 'faker';
 
-import { fuseData } from './fuse.js';
+import { Fuzz, FuzzItem } from 'fuzz-js';
 
 @Component({
   selector: 'app-demo-page',
@@ -10,66 +11,94 @@ import { fuseData } from './fuse.js';
 })
 export class DemoPageComponent implements AfterViewInit {
 
-  @ViewChild('fuzzSearchTab') fuzzSearchTab;
-  @ViewChild('fuzzSearchPage') fuzzSearchPage;
-  @ViewChild('fuseDataTab') fuseDataTab;
-  @ViewChild('fuseDataPage') fuseDataPage;
-  @ViewChild('fuzzItemDebuggerTab') fuzzItemDebuggerTab;
-  @ViewChild('fuzzItemDebuggerPage') fuzzItemDebuggerPage;
-  @ViewChild('fuzzSearchOptionsTab') fuzzSearchOptionsTab;
-  @ViewChild('fuzzSearchOptionsPage') fuzzSearchOptionsPage;
-  @ViewChild('fuzzSearchResultsTab') fuzzSearchResultsTab;
-  @ViewChild('fuzzSearchResultsPage') fuzzSearchResultsPage;
+  @ViewChild('fuzzSearchTab', { static: true }) fuzzSearchTab;
+  @ViewChild('fuzzSearchPage', { static: true }) fuzzSearchPage;
+  @ViewChild('fuzzDataTab', { static: true }) fuzzDataTab;
+  @ViewChild('fuzzDataPage', { static: true }) fuzzDataPage;
+  @ViewChild('fuzzItemDebuggerTab', { static: true }) fuzzItemDebuggerTab;
+  @ViewChild('fuzzItemDebuggerPage', { static: true }) fuzzItemDebuggerPage;
+  @ViewChild('fuzzSearchOptionsTab', { static: true }) fuzzSearchOptionsTab;
+  @ViewChild('fuzzSearchOptionsPage', { static: true }) fuzzSearchOptionsPage;
+  @ViewChild('fuzzSearchResultsTab', { static: true }) fuzzSearchResultsTab;
+  @ViewChild('fuzzSearchResultsPage', { static: true }) fuzzSearchResultsPage;
+  @ViewChild('fuzzalyticsTab', { static: true }) fuzzalyticsTab;
+  @ViewChild('fuzzalyticsPage', { static: true }) fuzzalyticsPage;
+
 
   public headerTabsRight: any[] = [];
   public headerTabsLeft: any[] = [];
+  public lowerTabs: any[] = [];
   public selectedRightHeaderTab;
 
   public fuzz = new Fuzz();
-  public allItems = fuseData;
+  public allItems: any[];
   public filterSortQuery = '';
 
-  public filterSortKeys: string[] = Fuzz.getAllKeys(this.allItems);
+  public searchKeys: string[];
   public filterSortedItems: FuzzItem[];
   public filterSortTime = 0;
 
   public selectedFuzzItem: FuzzItem;
+  public fakeDataSize = 20;
+
+  public allItemsString: string;
+  public parseError: any;
+
+  public isSmallScreen: boolean;
 
   /**
    * constructor
    */
   constructor(
     public changeDetectorRef: ChangeDetectorRef,
+    public breakpointObserver: BreakpointObserver,
+    public mediaMatcher: MediaMatcher,
   ) {
+    this.generateFakeData();
     this.onFilterSortQueryChange(this.filterSortQuery);
+
+    this.breakpointObserver.observe([
+      '(max-width: 849px)'
+    ])
+      .subscribe((res) => {
+        this.isSmallScreen = this.mediaMatcher.matchMedia('(max-width: 849px)').matches;
+      });
+
+
   }
 
   public ngAfterViewInit() {
     this.headerTabsLeft = [
       {
-        tabTemplate: this.fuzzSearchTab,
-        pageTemplate: this.fuzzSearchPage,
-      },
-      {
         tabTemplate: this.fuzzSearchOptionsTab,
         pageTemplate: this.fuzzSearchOptionsPage,
+      },
+      {
+        tabTemplate: this.fuzzSearchTab,
+        pageTemplate: this.fuzzSearchPage,
       },
     ];
     this.headerTabsRight = [
       {
-        tabTemplate: this.fuseDataTab,
-        pageTemplate: this.fuseDataPage,
+        tabTemplate: this.fuzzDataTab,
+        pageTemplate: this.fuzzDataPage,
       },
       {
         tabTemplate: this.fuzzSearchResultsTab,
         pageTemplate: this.fuzzSearchResultsPage,
       },
+    ];
+    this.selectedRightHeaderTab = this.headerTabsRight[1];
+    this.lowerTabs = [
       {
         tabTemplate: this.fuzzItemDebuggerTab,
         pageTemplate: this.fuzzItemDebuggerPage,
       },
-    ];
-    this.selectedRightHeaderTab = this.headerTabsRight[1];
+      {
+        tabTemplate: this.fuzzalyticsTab,
+        pageTemplate: this.fuzzalyticsPage,
+      },
+    ]
     this.changeDetectorRef.detectChanges();
   }
 
@@ -78,28 +107,46 @@ export class DemoPageComponent implements AfterViewInit {
    */
   public onFilterSortQueryChange(filterSortQuery: string) {
     this.filterSortQuery = filterSortQuery;
+    this.runQuery();
+  }
+
+  public allItemsStringChange(allItemsString: string) {
+    console.log('allItemsStringChange')
+    this.allItemsString = allItemsString;
+    try {
+      this.setAllItems(JSON.parse(allItemsString));
+    } catch(error) {
+      console.log('parserror', error)
+      this.parseError = error;
+    }
+  }
+
+  public generateFakeData() {
+    const allItems = [];
+    for (let i = 0; i < this.fakeDataSize; i++) {
+      allItems.push(faker.helpers.userCard());
+    }
+    this.setAllItems(allItems)
+  }
+
+  public setAllItems(allItems: any[]) {
+    this.allItems = allItems;
+    this.allItemsString = JSON.stringify(allItems, null, 2);
+    this.parseError = undefined;
+    this.searchKeys = Fuzz.getAllKeys(allItems);
+    this.runQuery();
+  }
+
+  public runQuery() {
     this.filterSortTime = Date.now();
-    this.filterSortedItems = this.fuzz.filterSort(this.allItems, filterSortQuery, this.filterSortKeys);
+    this.filterSortedItems = this.fuzz.search(this.allItems, this.filterSortQuery, { subjectKeys: this.searchKeys });
     this.filterSortTime = Date.now() - this.filterSortTime;
     this.selectedFuzzItem = undefined;
   }
 
-  public selectFuzzItem(fuzzItem: FuzzItem) {
-    this.selectedFuzzItem = (this.selectedFuzzItem === fuzzItem) ? undefined : fuzzItem;
+  public preventDefault(event: Event) {
+    console.log('got', event)
+    event.preventDefault();
   }
 
-  /**
-   * get
-   * remove this
-   */
-  public get(
-    item: any,
-    keysString: string,
-  ) {
-    const keys = keysString.split('.');
-    for (let i = 0; i < keys.length; i++) {
-      item = item[keys[i]];
-    }
-    return item;
-  }
 }

@@ -8,6 +8,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class TabbedWindowComponent {
 
   @Input() headerTabs: any[] = [];
+  @Input() footerTabs: any[] = [];
   @Input() activeTab: any;
 
   @Output() activeTabChange: EventEmitter<boolean> = new EventEmitter<boolean>();

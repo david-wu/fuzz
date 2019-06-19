@@ -5,15 +5,26 @@
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
-	.header-tabs {
+	.tab-container {
 		user-select: none;
 		flex: 0 0 auto;
 		display: flex;
 		background-color: #e8e8e8;
-		.header-tab {
+		.tab {
+      flex: 0 1 auto;
 			padding: 0.5rem 0.5rem;
 			border-right: 1px solid #dddddd;
 			background-color: #eeeeee;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      // https://stackoverflow.com/questions/37594018/styling-dots-on-text-overflow-ellipsis
+      font-size: 10px;
+      span {
+        font-size: 1rem;
+      }
+
 			&:hover {
 				background-color: #f8f8f8;
 			}
@@ -23,7 +34,9 @@
 		}
 	}
 	.active-tab-content-container {
-		flex: 1 1 0;
+		flex: 1 1 auto;
 		overflow: auto;
+    display: flex;
+    flex-direction: column;
 	}
 }
