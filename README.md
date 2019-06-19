@@ -1,6 +1,9 @@
 # fuzz
   Filters and sorts items based on edit distance
 
+## Similar to..
+	FuseJs - https://fusejs.io/
+
 ## Usage
 `npm install --save fuzz-js`
 
