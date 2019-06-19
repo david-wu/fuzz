@@ -23,9 +23,8 @@
 		flex-direction: column;
 		.demo-container-header {
 			flex: 0 0 auto;
-			padding: 0.5rem 1rem;
+			padding: 1rem 2rem;
 			border-bottom: 1px solid #dddddd;
-			margin-bottom: 0.5rem;
 			display: flex;
 			align-items: center;
 			input {
@@ -34,7 +33,7 @@
 				height: 1.5rem;
 			}
 			.sort-time {
-				padding: 0 1rem;
+				margin-left: 1rem;
 				flex: 0 0 auto;
 				font-weight: 500;
 			}
@@ -47,14 +46,14 @@
 				width: 100%;
 				tr:not(:first-child) {
 					&:hover {
-						background-color: #ddeeff;
+						background-color: #eef8ff;
 					}
 					&.selected {
-						background-color: #ccddee;
+						background-color: #ddeeff;
 					}
 				}
 				th, td {
-					padding: 0.25rem 0.5rem;
+					padding: 0.5rem 1rem;
 					min-width: 10rem;
 				}
 			}

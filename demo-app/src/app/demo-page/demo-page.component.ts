@@ -69,7 +69,7 @@ export class DemoPageComponent implements AfterViewInit {
         pageTemplate: this.fuzzItemDebuggerPage,
       },
     ];
-    this.selectedRightHeaderTab = this.headerTabsRight[0];
+    this.selectedRightHeaderTab = this.headerTabsRight[1];
     this.changeDetectorRef.detectChanges();
   }
 
@@ -81,18 +81,11 @@ export class DemoPageComponent implements AfterViewInit {
     this.filterSortTime = Date.now();
     this.filterSortedItems = this.fuzz.filterSort(this.allItems, filterSortQuery, this.filterSortKeys);
     this.filterSortTime = Date.now() - this.filterSortTime;
-    console.log(this.filterSortedItems);
+    this.selectedFuzzItem = undefined;
   }
 
-
   public selectFuzzItem(fuzzItem: FuzzItem) {
-    if (fuzzItem === this.selectedFuzzItem) {
-      this.selectedFuzzItem = undefined;
-      this.selectedRightHeaderTab = this.headerTabsRight[0];
-      return;
-    }
-    this.selectedFuzzItem = fuzzItem;
-    this.selectedRightHeaderTab = this.headerTabsRight[2];
+    this.selectedFuzzItem = (this.selectedFuzzItem === fuzzItem) ? undefined : fuzzItem;
   }
 
   /**
