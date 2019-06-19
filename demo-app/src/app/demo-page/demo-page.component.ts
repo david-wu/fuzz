@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Fuzz, FuzzItem, FuzzDebugger } from 'fuzz-js';
 
 import { fuseData } from './fuse.js';
@@ -8,7 +8,7 @@ import { fuseData } from './fuse.js';
   templateUrl: './demo-page.component.html',
   styleUrls: ['./demo-page.component.scss']
 })
-export class DemoPageComponent {
+export class DemoPageComponent implements AfterViewInit {
 
   @ViewChild('fuzzSearchTab') fuzzSearchTab;
   @ViewChild('fuzzSearchPage') fuzzSearchPage;
@@ -18,21 +18,22 @@ export class DemoPageComponent {
   @ViewChild('fuzzItemDebuggerPage') fuzzItemDebuggerPage;
   @ViewChild('fuzzSearchOptionsTab') fuzzSearchOptionsTab;
   @ViewChild('fuzzSearchOptionsPage') fuzzSearchOptionsPage;
+  @ViewChild('fuzzSearchResultsTab') fuzzSearchResultsTab;
+  @ViewChild('fuzzSearchResultsPage') fuzzSearchResultsPage;
 
-  public headerTabs: any[] = [];
-  public headerTabsLeft = [];
+  public headerTabsRight: any[] = [];
+  public headerTabsLeft: any[] = [];
+  public selectedRightHeaderTab;
 
   public fuzz = new Fuzz();
   public allItems = fuseData;
-  public filterSortQuery: string = '';
+  public filterSortQuery = '';
 
-  public filterSortKeys = Fuzz.getAllKeys(this.allItems);
+  public filterSortKeys: string[] = Fuzz.getAllKeys(this.allItems);
   public filterSortedItems: FuzzItem[];
-  public filterSortTime: number = 0;
+  public filterSortTime = 0;
 
   public selectedFuzzItem: FuzzItem;
-  public selectedFuzzDebug: string = '';
-
 
   /**
    * constructor
@@ -60,22 +61,25 @@ export class DemoPageComponent {
         pageTemplate: this.fuseDataPage,
       },
       {
+        tabTemplate: this.fuzzSearchResultsTab,
+        pageTemplate: this.fuzzSearchResultsPage,
+      },
+      {
         tabTemplate: this.fuzzItemDebuggerTab,
         pageTemplate: this.fuzzItemDebuggerPage,
       },
     ];
-    this.selectedRightHeaderTab =this.headerTabsRight[0];
+    this.selectedRightHeaderTab = this.headerTabsRight[0];
     this.changeDetectorRef.detectChanges();
   }
 
   /**
    * onFilterSortQueryChange
-   * @param {string} filterSortQuery
    */
   public onFilterSortQueryChange(filterSortQuery: string) {
     this.filterSortQuery = filterSortQuery;
     this.filterSortTime = Date.now();
-    this.filterSortedItems = this.fuzz.filterSort(this.allItems, this.filterSortKeys, filterSortQuery);
+    this.filterSortedItems = this.fuzz.filterSort(this.allItems, filterSortQuery, this.filterSortKeys);
     this.filterSortTime = Date.now() - this.filterSortTime;
     console.log(this.filterSortedItems);
   }
@@ -84,31 +88,24 @@ export class DemoPageComponent {
   public selectFuzzItem(fuzzItem: FuzzItem) {
     if (fuzzItem === this.selectedFuzzItem) {
       this.selectedFuzzItem = undefined;
-      this.selectedFuzzDebug = '';
       this.selectedRightHeaderTab = this.headerTabsRight[0];
       return;
     }
     this.selectedFuzzItem = fuzzItem;
-    const fd = new FuzzDebugger();
-    this.selectedFuzzDebug = fd.debugFuzzItem(fuzzItem);
-    this.selectedRightHeaderTab = this.headerTabsRight[1];
-    console.log('selected', fuzzItem, this.selectedFuzzDebug)
+    this.selectedRightHeaderTab = this.headerTabsRight[2];
   }
 
   /**
    * get
    * remove this
-   * @param {any}    item
-   * @param {string} keysString
-   * @param {[type]}
    */
   public get(
     item: any,
     keysString: string,
   ) {
     const keys = keysString.split('.');
-    for(let i = 0; i < keys.length; i++) {
-      item = item[keys[i]]
+    for (let i = 0; i < keys.length; i++) {
+      item = item[keys[i]];
     }
     return item;
   }

@@ -1,8 +1,8 @@
 
 export class FuzzDeepKeyFinder {
 
-	public getAllKeys(allObjects: any[]) {
-		const allKeys = new Set();
+	public getAllKeys(allObjects: any[]): string[] {
+		const allKeys = new Set<string>();
 		allObjects.forEach((targetObject) => {
 			const objectKeys = this.getKeysDeep(targetObject);
 			objectKeys.forEach((objectKey) => {
@@ -12,7 +12,7 @@ export class FuzzDeepKeyFinder {
 		return Array.from(allKeys);
 	}
 
-	public getKeysDeep(targetObject: any, currentPath: string, visitedObjects: Set<any>) {
+	public getKeysDeep(targetObject: any, currentPath?: string, visitedObjects?: Set<any>): string[] {
 	  visitedObjects = visitedObjects || new Set();
 
 	  const childKeys = this.getKeys(targetObject)
@@ -43,11 +43,11 @@ export class FuzzDeepKeyFinder {
 	  return searchableKeys;
 	}
 
-	public isSearchableValue(value) {
+	public isSearchableValue(value: any): boolean {
 	  return ['string', 'number'].includes(typeof value);
 	}
 
-	public getKeys(targetObject) {
+	public getKeys(targetObject: any) {
 	  if (targetObject === null || targetObject === undefined) {
 	    return [];
 	  }
