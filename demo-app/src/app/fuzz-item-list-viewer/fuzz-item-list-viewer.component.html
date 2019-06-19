@@ -1,0 +1,33 @@
+<table>
+  <tr>
+    <th class="score-column">
+      Score:
+    </th>
+    <th *ngFor="let filterSortKey of filterSortKeys">
+      {{ filterSortKey }}
+    </th>
+  </tr>
+  <tr
+    *ngFor="let fuzzItem of fuzzItems"
+    class="clickable"
+    [class.selected]="selectedFuzzItem === fuzzItem"
+    (click)="selectFuzzItem(fuzzItem)"
+  >
+    <td class="score-column">
+      {{ (fuzzItem.score || 0) | number: '1.3-3' }}
+    </td>
+    <td
+      *ngFor="let filterSortKey of filterSortKeys"
+      [class.matched-cell]="filterSortKey === fuzzItem.key"
+    >
+      <div *ngIf="fuzzItem.key !== filterSortKey">
+        {{ get(fuzzItem.original, filterSortKey) }}
+      </div>
+      <div
+        *ngIf="fuzzItem.key === filterSortKey"
+        class="styled-string"
+        [innerHtml]="fuzzItem.styledString"
+      ></div>
+    </td>
+  </tr>
+</table>

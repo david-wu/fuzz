@@ -1,84 +1,187 @@
-<app-tabbed-window
-  *ngIf="headerTabsLeft"
-  [headerTabs]="headerTabsLeft"
-  [activeTab]="headerTabsLeft[0]"
-></app-tabbed-window>
-<app-tabbed-window
-  *ngIf="headerTabsRight"
-  [headerTabs]="headerTabsRight"
-  [activeTab]="selectedFuzzItem ? headerTabsRight[2]: selectedRightHeaderTab"
-  (activeTabChange)="selectedRightHeaderTab = $event"
-></app-tabbed-window>
+<div class="left-windows">
+  <app-tabbed-window
+    class="top"
+    [headerTabs]="isSmallScreen ? headerTabsLeft.concat(headerTabsRight) : headerTabsLeft"
+    [activeTab]="headerTabsLeft[1]"
+  ></app-tabbed-window>
+  <app-tabbed-window
+    class="bottom"
+    [footerTabs]="lowerTabs"
+    [activeTab]="lowerTabs[1]"
+  ></app-tabbed-window>
+</div>
+<div *ngIf="!isSmallScreen" class="right-windows">
+  <app-tabbed-window
+    class="narrow"
+    [headerTabs]="headerTabsRight"
+    [activeTab]="selectedRightHeaderTab"
+    (activeTabChange)="selectedRightHeaderTab = $event"
+  ></app-tabbed-window>
+</div>
+
+<!-- <div class="upper-windows">
+  <ng-container *ngIf="!isSmallScreen">
+    <app-tabbed-window
+      *ngIf="headerTabsLeft"
+      [headerTabs]="headerTabsLeft"
+      [activeTab]="headerTabsLeft[1]"
+    ></app-tabbed-window>
+    <app-tabbed-window
+      *ngIf="headerTabsRight"
+      class="narrow"
+      [headerTabs]="headerTabsRight"
+      [activeTab]="selectedRightHeaderTab"
+      (activeTabChange)="selectedRightHeaderTab = $event"
+    ></app-tabbed-window>
+  </ng-container>
+
+  <ng-container *ngIf="isSmallScreen">
+    <app-tabbed-window
+      *ngIf="headerTabsRight"
+      class="single"
+      [headerTabs]="headerTabsLeft.concat(headerTabsRight)"
+      [activeTab]="headerTabsLeft[1]"
+    ></app-tabbed-window>
+  </ng-container>
+</div>
+<div class="lower-windows">
+  <app-tabbed-window
+    [footerTabs]="lowerTabs"
+    [activeTab]="lowerTabs[1]"
+  ></app-tabbed-window>
+</div>
+ -->
 
 <ng-template #fuzzSearchResultsTab>
   Search Results
 </ng-template>
 <ng-template #fuzzSearchResultsPage>
-  <pre>{{ filterSortedItems | json}}</pre>
+  <div class="tab-page">
+    <div class="text-area-container">
+      <textarea readonly>{{ filterSortedItems | json }}</textarea>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #fuzzSearchTab>
   FuzzJs Search Demo
 </ng-template>
 <ng-template #fuzzSearchPage>
-  <div class="demo-container">
-    <div class="demo-container-header">
+  <div class="tab-page">
+    <div class="page-header demo-container-header">
       <input
         autofocus
         type="text"
         [ngModel]="filterSortQuery"
         (ngModelChange)="onFilterSortQueryChange($event)"
-        placeholder="search.."
+        placeholder="Enter search query.."
       >
       <div class="sort-time">search took: {{ filterSortTime }}ms</div>
     </div>
     <div class="results-container">
-      <table>
-        <tr>
-          <th *ngFor="let filterSortKey of filterSortKeys">
-            {{ filterSortKey }}
-          </th>
-        </tr>
-        <tr
-          *ngFor="let filterSortedItem of filterSortedItems"
-          class="clickable"
-          [class.selected]="selectedFuzzItem === filterSortedItem"
-        >
-          <td
-            *ngFor="let filterSortKey of filterSortKeys"
-            (click)="selectFuzzItem(filterSortedItem)"
-          >
-            <div *ngIf="filterSortedItem.key !== filterSortKey">
-              {{ get(filterSortedItem.original, filterSortKey) }}
-            </div>
-
-            <!-- should make innerHtmlLight -->
-            <div
-              *ngIf="filterSortedItem.key === filterSortKey"
-              class="styled-string"
-              [innerHtml]="filterSortedItem.styledString"
-            ></div>
-          </td>
-        </tr>
-      </table>
+      <app-fuzz-item-list-viewer
+        [fuzzItems]="filterSortedItems"
+        [filterSortKeys]="searchKeys"
+        [(selectedFuzzItem)]="selectedFuzzItem"
+      ></app-fuzz-item-list-viewer>
     </div>
   </div>
 </ng-template>
 
 <ng-template #fuzzSearchOptionsTab>
-  Search Options
+  Search Options & Code Sample
 </ng-template>
 <ng-template #fuzzSearchOptionsPage>
-  <p>todo, probably add a form here, then generate some sample code beneath</p>
+  <div class="tab-page">
+    <div class="page-header">Set some options, and try another search!  Code sample will be generated below.</div>
+    <div class="options-form">
+      <label>
+        <textarea></textarea>
+        <span>subjectKeys</span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span>isCaseSensitive</span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span>skipFilter</span>
+      </label>
+      <label>
+        <input type="checkbox">
+        <span>skipSort</span>
+      </label>
+      <label>
+        <input type="text">
+        <span>startDecorator</span>
+      </label>
+      <label>
+        <input type="text">
+        <span>endDecorator</span>
+      </label>
+      <label>
+        <input type="number">
+        <span>filterThreshold</span>
+      </label>
+      <label>
+        <textarea></textarea>
+        <span>editCosts</span>
+      </label>
+    </div>
+    <div class="text-area-container">
+      <textarea readonly>code is like this</textarea>
+    </div>
+  </div>
 </ng-template>
 
-<ng-template #fuseDataTab>Original Items</ng-template>
-<ng-template #fuseDataPage>
-  <pre>{{ allItems | json }}</pre>
+<ng-template #fuzzDataTab>Input Data</ng-template>
+<ng-template #fuzzDataPage>
+  <div class="tab-page">
+    <div class="page-header input-data-page-header">
+      <div class="header-text">Click the "Generate" button, or type in some JSON formatted data.</div>
+      <div class="button-battery">
+        <label class="size-input">
+          <span>Size:</span>
+          <input type="number" [(ngModel)]="fakeDataSize">
+        </label>
+        <button (click)="generateFakeData()">Generate</button>
+      </div>
+    </div>
+    <div class="text-area-container" [class.parse-error]="parseError">
+      <textarea
+        [ngModel]="allItemsString || (allItems | json)"
+        (ngModelChange)="allItemsStringChange($event)"
+      ></textarea>
+    </div>
+  </div>
 </ng-template>
 
-<ng-template #fuzzItemDebuggerTab>Selected FuzzItem</ng-template>
+<ng-template #fuzzItemDebuggerTab>SelectedItem</ng-template>
 <ng-template #fuzzItemDebuggerPage>
-  <pre *ngIf="selectedFuzzItem">{{ selectedFuzzItem | json }}</pre>
-  <p *ngIf="!selectedFuzzItem"> Select an item from FuzzJs Search</p>
+  <div class="tab-page">
+    <div *ngIf="!selectedFuzzItem" class="page-footer">Select a row from the "FuzzJs Search Demo" tab</div>
+    <div *ngIf="selectedFuzzItem" class="text-area-container fixed-height">
+      <textarea readonly>{{ selectedFuzzItem | json }}</textarea>
+      <!-- <pre
+        class="textarea"
+        contenteditable
+        oncut="return false"
+        onpaste="return false"
+        onkeydown="if(event.metaKey) return true; return false;"
+      >{{ selectedFuzzItem | json }}</pre> -->
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #fuzzalyticsTab>Fuzzalytics</ng-template>
+<ng-template #fuzzalyticsPage>
+  <div class="tab-page">
+    <div *ngIf="selectedFuzzItem" class="fuzzalytics-container">
+      <app-fuzzalytics
+        [fuzzItem]="selectedFuzzItem"
+        [fuzzalyticsByFuzzItem]="fuzz.diagnosticsByFuzzItem"
+      ></app-fuzzalytics>
+    </div>
+    <div *ngIf="!selectedFuzzItem" class="page-footer">Select a row from the "FuzzJs Search Demo" tab</div>
+  </div>
 </ng-template>

@@ -1,14 +1,24 @@
 
-<div class="header-tabs">
+<div class="tab-container">
 	<div
 		*ngFor="let headerTab of headerTabs"
-		class="header-tab clickable"
+		class="tab clickable"
 		[class.active]="headerTab === activeTab"
 		(click)="selectActiveTab(headerTab)"
 	>
-		<ng-container *ngTemplateOutlet="headerTab.tabTemplate"></ng-container>
+		<span><ng-container *ngTemplateOutlet="headerTab.tabTemplate"></ng-container></span>
 	</div>
 </div>
 <div class="active-tab-content-container" *ngIf="activeTab">
 	<ng-container *ngTemplateOutlet="activeTab.pageTemplate"></ng-container>
+</div>
+<div class="tab-container">
+  <div
+    *ngFor="let footerTab of footerTabs"
+    class="tab clickable"
+    [class.active]="footerTab === activeTab"
+    (click)="selectActiveTab(footerTab)"
+  >
+    <span><ng-container *ngTemplateOutlet="footerTab.tabTemplate"></ng-container></span>
+  </div>
 </div>
