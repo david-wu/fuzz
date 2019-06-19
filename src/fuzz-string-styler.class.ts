@@ -1,4 +1,3 @@
-import { EditCosts, FuzzItem } from './models';
 
 export class FuzzStringStyler {
 
@@ -13,30 +12,30 @@ export class FuzzStringStyler {
     return this.styleString(targetString, stringStyles);
   }
 
-	public styleString(targetString, stringStyles) {
-	  const startTagsByCharIndex = {};
-	  const endTagsByCharIndex = {};
-	  stringStyles.forEach((stringStyle) => {
-	    const startIndex = stringStyle.range[0];
-	    const endIndex = stringStyle.range[1] + 1;
-	    startTagsByCharIndex[startIndex] = startTagsByCharIndex[startIndex] || [];
-	    endTagsByCharIndex[endIndex] = endTagsByCharIndex[endIndex] || [];
+  public styleString(targetString, stringStyles) {
+    const startTagsByCharIndex = {};
+    const endTagsByCharIndex = {};
+    stringStyles.forEach((stringStyle) => {
+      const startIndex = stringStyle.range[0];
+      const endIndex = stringStyle.range[1] + 1;
+      startTagsByCharIndex[startIndex] = startTagsByCharIndex[startIndex] || [];
       startTagsByCharIndex[startIndex].push(stringStyle.startDecorator);
-	    endTagsByCharIndex[endIndex].push(stringStyle.endDecorator);
-	  });
+      endTagsByCharIndex[endIndex] = endTagsByCharIndex[endIndex] || [];
+      endTagsByCharIndex[endIndex].push(stringStyle.endDecorator);
+    });
 
-	  const styledStringArr = [];
-	  for (let i = 0; i < targetString.length; i++) {
-	    const char = targetString[i];
-	    const tagsToInsert = [
-	      ...(startTagsByCharIndex[i] || []),
-	      ...(endTagsByCharIndex[i] || [])
-	    ];
-	    tagsToInsert.forEach((tagToInsert) => {
-	      styledStringArr.push(tagToInsert);
-	    });
-	    styledStringArr.push(char);
-	  }
-	  return styledStringArr.join('');
-	}
+    const styledStringArr = [];
+    for (let i = 0; i < targetString.length; i++) {
+      const char = targetString[i];
+      const tagsToInsert = [
+        ...(startTagsByCharIndex[i] || []),
+        ...(endTagsByCharIndex[i] || [])
+      ];
+      tagsToInsert.forEach((tagToInsert) => {
+        styledStringArr.push(tagToInsert);
+      });
+      styledStringArr.push(char);
+    }
+    return styledStringArr.join('');
+  }
 }

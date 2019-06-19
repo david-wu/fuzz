@@ -15,6 +15,7 @@ export const fuseData = [
   },
   {
     "title": "HTML5",
+    "description": "this is about html5",
     "author": {
       "firstName": "Remy",
       "lastName": "Sharp"

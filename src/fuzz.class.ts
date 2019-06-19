@@ -1,5 +1,8 @@
 import { EditCosts, FuzzItem } from './models';
 import { FuzzStringStyler } from './fuzz-string-styler.class';
+import { FuzzDeepKeyFinder } from './fuzz-deep-key-finder.class';
+
+
 export class Fuzz {
 
 	public static readonly DEFAULT_EDIT_COSTS: EditCosts = {
@@ -11,6 +14,10 @@ export class Fuzz {
 	}
 	// edit distance allowed per query length
 	public static readonly DEFAULT_FILTER_THRESHOLD: number = 45;
+	public static getAllKeys (items: any[]) {
+		const fdkf = new FuzzDeepKeyFinder();
+		return fdkf.getAllKeys(items);
+	}
 
 	public isCaseSensitive: boolean = false;
 	public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
@@ -25,6 +32,7 @@ export class Fuzz {
 
 	constructor(
 		public stringStyler: FuzzStringStyler = new FuzzStringStyler(),
+		public keyFinder: FuzzDeepKeyFinder = new FuzzDeepKeyFinder();
 	) {}
 
 	public filterSort(
@@ -33,6 +41,11 @@ export class Fuzz {
 		query: string,
 		filterThreshold: number = this.filterThreshold,
 	): FuzzItem[] {
+
+		subjectKeys = subjectKeys.length
+			? subjectKeys
+			: this.keyFinder.getAllKeys(items);
+
 		const fuzzItems: FuzzItem[] = this.getFuzzItems(items, subjectKeys, query);
 		this.scoreFuzzItems(fuzzItems);
 		let filteredFuzzItems = fuzzItems;
@@ -65,6 +78,9 @@ export class Fuzz {
 		items.forEach((item: any) => {
 			subjectKeys.forEach((key: string) => {
 				const subject = get(item, key);
+				if (subject === undefined) {
+					return;
+				}
 				fuzzItems.push({
 					original: item,
 					key: key,
