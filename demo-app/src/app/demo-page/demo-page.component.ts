@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Fuzz, FuzzItem } from 'fuzz-js';
 
-import { fuseData } from './fuse.json';
+import { fuseData } from './fuse.js';
 
 @Component({
   selector: 'app-demo-page',
@@ -47,7 +47,6 @@ export class DemoPageComponent {
       }
     ];
     this.changeDetectorRef.detectChanges();
-    console.log(this.headerTabs)
   }
 
   /**
@@ -59,7 +58,7 @@ export class DemoPageComponent {
     this.filterSortTime = Date.now();
     this.filterSortedItems = this.fuzz.filterSort(this.allItems, this.filterSortKeys, filterSortQuery);
     this.filterSortTime = Date.now() - this.filterSortTime;
-    console.log('this.filterSortedItems', this.filterSortedItems)
+    console.log(this.filterSortedItems);
   }
 
 

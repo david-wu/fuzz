@@ -1,5 +1,5 @@
 import { EditCosts, FuzzItem } from './models';
-
+import { FuzzStringStyler } from './fuzz-string-styler.class';
 export class Fuzz {
 
 	public static readonly DEFAULT_EDIT_COSTS: EditCosts = {
@@ -20,6 +20,12 @@ export class Fuzz {
 	// alternative would be a set of flags like
 	// 'omitEditMatrix', 'omitOperationMatrix', 'omitMatchRanges'
 	public performanceMode: boolean;
+
+	public stringStyler: FuzzStringStyler;
+
+	constructor(
+		public stringStyler: FuzzStringStyler = new FuzzStringStyler(),
+	) {}
 
 	public filterSort(
 		items: any[],
@@ -87,7 +93,8 @@ export class Fuzz {
 			fuzzItem.editMatrix = editMatrix;
 			fuzzItem.editDistance = editMatrix[editMatrix.length - 1][editMatrix[0].length - 1];
 			fuzzItem.operationMatrix = operationMatrix;
-			fuzzItem.matchRanges = matchRanges
+			fuzzItem.matchRanges = matchRanges;
+			fuzzItem.styledString = this.stringStyler.styleWithBoldTags(fuzzItem.subject, matchRanges)
 		});
 	}
 

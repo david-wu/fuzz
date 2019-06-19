@@ -2,7 +2,7 @@
 <div class="header-tabs">
 	<div
 		*ngFor="let headerTab of headerTabs"
-		class="header-tab"
+		class="header-tab clickable"
 		[class.active]="headerTab === activeTab"
 		(click)="activeTab = headerTab"
 	>
