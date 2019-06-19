@@ -47,10 +47,10 @@
 				width: 100%;
 				tr:not(:first-child) {
 					&:hover {
-						background-color: #aacccc;
+						background-color: #ddeeff;
 					}
 					&.selected {
-						background-color: #aaddee;
+						background-color: #ccddee;
 					}
 				}
 				th, td {

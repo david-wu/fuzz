@@ -23,6 +23,7 @@ export const fuseData = [
   },
   {
     "title": "Right Ho Jeeves",
+    "description": "The second full-length novel featuring the popular characters Jeeves and Bertie Wooster",
     "author": {
       "firstName": "P.D",
       "lastName": "Woodhouse"
@@ -30,6 +31,7 @@ export const fuseData = [
   },
   {
     "title": "The Code of the Wooster",
+    "description": "The Code of the Woosters is the third full-length novel to feature two of Wodehouse's best-known creations, Bertie Wooster and his valet Jeeves.",
     "author": {
       "firstName": "P.D",
       "lastName": "Woodhouse"

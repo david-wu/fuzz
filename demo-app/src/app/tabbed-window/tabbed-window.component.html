@@ -4,7 +4,7 @@
 		*ngFor="let headerTab of headerTabs"
 		class="header-tab clickable"
 		[class.active]="headerTab === activeTab"
-		(click)="activeTab = headerTab"
+		(click)="selectActiveTab(headerTab)"
 	>
 		<ng-container *ngTemplateOutlet="headerTab.tabTemplate"></ng-container>
 	</div>

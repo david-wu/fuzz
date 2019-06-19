@@ -1,74 +1,83 @@
 <app-tabbed-window
-	*ngIf="headerTabsLeft"
-	[headerTabs]="headerTabsLeft"
-	[activeTab]="headerTabsLeft[0]"
+  *ngIf="headerTabsLeft"
+  [headerTabs]="headerTabsLeft"
+  [activeTab]="headerTabsLeft[0]"
 ></app-tabbed-window>
 <app-tabbed-window
-	*ngIf="headerTabsRight"
-	[headerTabs]="headerTabsRight"
-	[activeTab]="selectedRightHeaderTab"
+  *ngIf="headerTabsRight"
+  [headerTabs]="headerTabsRight"
+  [activeTab]="selectedRightHeaderTab"
+  (activeTabChange)="selectedRightHeaderTab = $event"
 ></app-tabbed-window>
 
+<ng-template #fuzzSearchResultsTab>
+  FuzzJs Search Results
+</ng-template>
+<ng-template #fuzzSearchResultsPage>
+  <pre>{{ filterSortedItems | json}}</pre>
+</ng-template>
+
 <ng-template #fuzzSearchTab>
-	FuzzJs Search
+  FuzzJs Search
 </ng-template>
 <ng-template #fuzzSearchPage>
-	<div class="demo-container">
-		<div class="demo-container-header">
-			<input
-				type="text"
-				[ngModel]="filterSortQuery"
-				(ngModelChange)="onFilterSortQueryChange($event)"
-				placeholder="search.."
-			>
-			<div class="sort-time">search took: {{ filterSortTime }}ms</div>
-		</div>
-		<div class="results-container">
-			<table>
-				<tr>
-					<th *ngFor="let filterSortKey of filterSortKeys">
-						{{ filterSortKey }}
-					</th>
-				</tr>
-				<tr
-					*ngFor="let filterSortedItem of filterSortedItems"
-					class="clickable"
-					[class.selected]="selectedFuzzItem === filterSortedItem"
-				>
-					<td
-						*ngFor="let filterSortKey of filterSortKeys"
-						(click)="selectFuzzItem(filterSortedItem)"
-					>
-						<div *ngIf="filterSortedItem.key !== filterSortKey">
-							{{ get(filterSortedItem.original, filterSortKey) }}
-						</div>
+  <div class="demo-container">
+    <div class="demo-container-header">
+      <input
+        type="text"
+        [ngModel]="filterSortQuery"
+        (ngModelChange)="onFilterSortQueryChange($event)"
+        placeholder="search.."
+      >
+      <div class="sort-time">search took: {{ filterSortTime }}ms</div>
+    </div>
+    <div class="results-container">
+      <table>
+        <tr>
+          <th *ngFor="let filterSortKey of filterSortKeys">
+            {{ filterSortKey }}
+          </th>
+        </tr>
+        <tr
+          *ngFor="let filterSortedItem of filterSortedItems"
+          class="clickable"
+          [class.selected]="selectedFuzzItem === filterSortedItem"
+        >
+          <td
+            *ngFor="let filterSortKey of filterSortKeys"
+            (click)="selectFuzzItem(filterSortedItem)"
+          >
+            <div *ngIf="filterSortedItem.key !== filterSortKey">
+              {{ get(filterSortedItem.original, filterSortKey) }}
+            </div>
 
-						<!-- should make innerHtmlLight -->
-						<div
-							*ngIf="filterSortedItem.key === filterSortKey"
-							class="styled-string"
-							[innerHtml]="filterSortedItem.styledString"
-						></div>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+            <!-- should make innerHtmlLight -->
+            <div
+              *ngIf="filterSortedItem.key === filterSortKey"
+              class="styled-string"
+              [innerHtml]="filterSortedItem.styledString"
+            ></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #fuzzSearchOptionsTab>
-	FuzzJs Search Options
+  FuzzJs Search Options
 </ng-template>
 <ng-template #fuzzSearchOptionsPage>
-	<p>todo, probably add a form here, then generate some sample code beneath</p>
+  <p>todo, probably add a form here, then generate some sample code beneath</p>
 </ng-template>
 
-<ng-template #fuseDataTab>All Items</ng-template>
+<ng-template #fuseDataTab>Original Items</ng-template>
 <ng-template #fuseDataPage>
-	<pre>{{ allItems | json }}</pre>
+  <pre>{{ allItems | json }}</pre>
 </ng-template>
 
-<ng-template #fuzzItemDebuggerTab>Fuzz Item Debugger</ng-template>
+<ng-template #fuzzItemDebuggerTab>Selected Fuzz Item</ng-template>
 <ng-template #fuzzItemDebuggerPage>
-	<pre>{{ selectedFuzzDebug }}</pre>
+  <pre *ngIf="selectedFuzzItem">{{ selectedFuzzItem | json }}</pre>
+  <p *ngIf="!selectedFuzzItem"> Select an item from FuzzJs Search</p>
 </ng-template>
