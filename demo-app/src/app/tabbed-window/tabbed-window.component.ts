@@ -24,7 +24,7 @@ export class TabbedWindowComponent implements OnChanges {
   }
 
   public selectActiveTab (activeTab: any) {
-    this.activeTab = activeTab;
+    this.activeTab = this.activeTab === activeTab ? undefined : activeTab;
     this.activeTabChange.emit(activeTab);
   }
 }

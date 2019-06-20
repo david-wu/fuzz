@@ -13,7 +13,7 @@ export interface Fuzzalytics {
  */
 export class Fuzz {
 
-  public static readonly DEFAULT_FILTER_THRESHOLD: number = 0.6;
+  public static readonly DEFAULT_FILTER_THRESHOLD: number = 0.4;
   public static readonly DEFAULT_EDIT_COSTS: EditCosts = {
     substitution: 101,
     deletion: 100,
