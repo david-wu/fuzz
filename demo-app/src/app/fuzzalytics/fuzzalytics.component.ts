@@ -36,7 +36,7 @@ export class FuzzalyticsComponent implements OnChanges {
       this.fuzzalytics.traversedCells.forEach((cell: number[]) => {
         this.traversedCellsIndex[cell[0]] = this.traversedCellsIndex[cell[0]] || [];
         this.traversedCellsIndex[cell[0]][cell[1]] = true;
-      })
+      });
     }
   }
 

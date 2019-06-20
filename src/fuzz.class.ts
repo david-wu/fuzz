@@ -90,8 +90,8 @@ export class Fuzz {
         fuzzItems.push({
           original: item,
           key: key,
-          subject,
-          query,
+          subject: String(subject),
+          query: String(query),
         } as FuzzItem);
       });
     });
@@ -277,6 +277,9 @@ function get(
 ) {
   const keys = keysString.split('.');
   for(let i = 0; i < keys.length; i++) {
+    if(item === undefined || item === null) {
+      return;
+    }
     item = item[keys[i]]
   }
   return item;
