@@ -24,10 +24,10 @@ export class DemoPageComponent implements AfterViewInit {
   @ViewChild('fuzzalyticsTab', { static: true }) fuzzalyticsTab;
   @ViewChild('fuzzalyticsPage', { static: true }) fuzzalyticsPage;
 
-
   public headerTabsRight: any[] = [];
   public headerTabsLeft: any[] = [];
   public lowerTabs: any[] = [];
+  public selectedLeftHeaderTab;
   public selectedRightHeaderTab;
 
   public fuzz = new Fuzz();
@@ -63,8 +63,6 @@ export class DemoPageComponent implements AfterViewInit {
       .subscribe((res) => {
         this.isSmallScreen = this.mediaMatcher.matchMedia('(max-width: 849px)').matches;
       });
-
-
   }
 
   public ngAfterViewInit() {
@@ -78,6 +76,7 @@ export class DemoPageComponent implements AfterViewInit {
         pageTemplate: this.fuzzSearchPage,
       },
     ];
+    this.selectedLeftHeaderTab = this.headerTabsLeft[1];
     this.headerTabsRight = [
       {
         tabTemplate: this.fuzzDataTab,
@@ -98,7 +97,7 @@ export class DemoPageComponent implements AfterViewInit {
         tabTemplate: this.fuzzalyticsTab,
         pageTemplate: this.fuzzalyticsPage,
       },
-    ]
+    ];
     this.changeDetectorRef.detectChanges();
   }
 
@@ -111,12 +110,10 @@ export class DemoPageComponent implements AfterViewInit {
   }
 
   public allItemsStringChange(allItemsString: string) {
-    console.log('allItemsStringChange')
     this.allItemsString = allItemsString;
     try {
       this.setAllItems(JSON.parse(allItemsString));
-    } catch(error) {
-      console.log('parserror', error)
+    } catch (error) {
       this.parseError = error;
     }
   }
@@ -126,12 +123,12 @@ export class DemoPageComponent implements AfterViewInit {
     for (let i = 0; i < this.fakeDataSize; i++) {
       allItems.push(faker.helpers.userCard());
     }
-    this.setAllItems(allItems)
+    this.setAllItems(allItems);
+    this.allItemsString = JSON.stringify(allItems, null, 2);
   }
 
   public setAllItems(allItems: any[]) {
     this.allItems = allItems;
-    this.allItemsString = JSON.stringify(allItems, null, 2);
     this.parseError = undefined;
     this.searchKeys = Fuzz.getAllKeys(allItems);
     this.runQuery();
@@ -142,11 +139,6 @@ export class DemoPageComponent implements AfterViewInit {
     this.filterSortedItems = this.fuzz.search(this.allItems, this.filterSortQuery, { subjectKeys: this.searchKeys });
     this.filterSortTime = Date.now() - this.filterSortTime;
     this.selectedFuzzItem = undefined;
-  }
-
-  public preventDefault(event: Event) {
-    console.log('got', event)
-    event.preventDefault();
   }
 
 }

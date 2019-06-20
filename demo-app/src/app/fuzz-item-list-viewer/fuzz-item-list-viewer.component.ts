@@ -22,8 +22,7 @@ export class FuzzItemListViewerComponent {
   }
 
   /**
-   * get
-   * remove this
+   * remove this someday
    */
   public get(
     item: any,
@@ -31,6 +30,9 @@ export class FuzzItemListViewerComponent {
   ) {
     const keys = keysString.split('.');
     for (let i = 0; i < keys.length; i++) {
+      if (!item) {
+        return '';
+      }
       item = item[keys[i]];
     }
     return item;

@@ -2,9 +2,12 @@
   <app-tabbed-window
     class="top"
     [headerTabs]="isSmallScreen ? headerTabsLeft.concat(headerTabsRight) : headerTabsLeft"
-    [activeTab]="headerTabsLeft[1]"
+    [activeTab]="selectedLeftHeaderTab"
+    (activeTabChange)="selectedLeftHeaderTab = $event"
+
   ></app-tabbed-window>
   <app-tabbed-window
+    *ngIf="selectedLeftHeaderTab === headerTabsLeft[1]"
     class="bottom"
     [footerTabs]="lowerTabs"
     [activeTab]="lowerTabs[1]"
@@ -19,41 +22,8 @@
   ></app-tabbed-window>
 </div>
 
-<!-- <div class="upper-windows">
-  <ng-container *ngIf="!isSmallScreen">
-    <app-tabbed-window
-      *ngIf="headerTabsLeft"
-      [headerTabs]="headerTabsLeft"
-      [activeTab]="headerTabsLeft[1]"
-    ></app-tabbed-window>
-    <app-tabbed-window
-      *ngIf="headerTabsRight"
-      class="narrow"
-      [headerTabs]="headerTabsRight"
-      [activeTab]="selectedRightHeaderTab"
-      (activeTabChange)="selectedRightHeaderTab = $event"
-    ></app-tabbed-window>
-  </ng-container>
-
-  <ng-container *ngIf="isSmallScreen">
-    <app-tabbed-window
-      *ngIf="headerTabsRight"
-      class="single"
-      [headerTabs]="headerTabsLeft.concat(headerTabsRight)"
-      [activeTab]="headerTabsLeft[1]"
-    ></app-tabbed-window>
-  </ng-container>
-</div>
-<div class="lower-windows">
-  <app-tabbed-window
-    [footerTabs]="lowerTabs"
-    [activeTab]="lowerTabs[1]"
-  ></app-tabbed-window>
-</div>
- -->
-
 <ng-template #fuzzSearchResultsTab>
-  Search Results
+  Results
 </ng-template>
 <ng-template #fuzzSearchResultsPage>
   <div class="tab-page">
@@ -64,7 +34,7 @@
 </ng-template>
 
 <ng-template #fuzzSearchTab>
-  FuzzJs Search Demo
+  Search Demo
 </ng-template>
 <ng-template #fuzzSearchPage>
   <div class="tab-page">
@@ -162,13 +132,6 @@
     <div *ngIf="!selectedFuzzItem" class="page-footer">Select a row from the "FuzzJs Search Demo" tab</div>
     <div *ngIf="selectedFuzzItem" class="text-area-container fixed-height">
       <textarea readonly>{{ selectedFuzzItem | json }}</textarea>
-      <!-- <pre
-        class="textarea"
-        contenteditable
-        oncut="return false"
-        onpaste="return false"
-        onkeydown="if(event.metaKey) return true; return false;"
-      >{{ selectedFuzzItem | json }}</pre> -->
     </div>
   </div>
 </ng-template>
