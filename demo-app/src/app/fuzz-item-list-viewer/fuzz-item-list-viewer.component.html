@@ -10,8 +10,8 @@
   <tr
     *ngFor="let fuzzItem of fuzzItems"
     class="clickable"
-    [class.selected]="selectedFuzzItem === fuzzItem"
-    (click)="selectFuzzItem(fuzzItem)"
+    [class.selected]="selectedOriginalItem === fuzzItem.original"
+    (click)="selectOriginalItem(fuzzItem.original)"
   >
     <td class="score-column">
       {{ (fuzzItem.score || 0) | number: '1.3-3' }}

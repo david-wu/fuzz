@@ -38,7 +38,8 @@ export class DemoPageComponent implements AfterViewInit {
   public filterSortedItems: FuzzItem[];
   public filterSortTime = 0;
 
-  public selectedFuzzItem: FuzzItem;
+  public fuzzItemsByOriginals: Map<any, FuzzItem> = new Map<any, FuzzItem>();
+  public selectedOriginal: any;
   public fakeDataSize = 20;
 
   public allItemsString: string;
@@ -138,7 +139,15 @@ export class DemoPageComponent implements AfterViewInit {
     this.filterSortTime = Date.now();
     this.filterSortedItems = this.fuzz.search(this.allItems, this.filterSortQuery, { subjectKeys: this.searchKeys });
     this.filterSortTime = Date.now() - this.filterSortTime;
-    this.selectedFuzzItem = undefined;
+
+    this.fuzzItemsByOriginals = new Map<any, FuzzItem>();
+    this.filterSortedItems.forEach((fuzzItem: FuzzItem) => {
+      this.fuzzItemsByOriginals.set(fuzzItem.original, fuzzItem);
+    });
+  }
+
+  public get selectedFuzzItem() {
+    return this.fuzzItemsByOriginals && this.fuzzItemsByOriginals.get(this.selectedOriginal);
   }
 
 }

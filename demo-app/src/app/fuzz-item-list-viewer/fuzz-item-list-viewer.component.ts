@@ -11,14 +11,14 @@ export class FuzzItemListViewerComponent {
 
   @Input() filterSortKeys: string[];
   @Input() fuzzItems: FuzzItem[];
-  @Input() selectedFuzzItem: FuzzItem;
-  @Output() selectedFuzzItemChange: EventEmitter<FuzzItem> = new EventEmitter<FuzzItem>();
+  @Input() selectedOriginalItem: any;
+  @Output() selectedOriginalItemChange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 
-  public selectFuzzItem(fuzzItem: FuzzItem) {
-    this.selectedFuzzItem = (this.selectedFuzzItem === fuzzItem) ? undefined : fuzzItem;
-    this.selectedFuzzItemChange.emit(this.selectedFuzzItem);
+  public selectOriginalItem(original: any) {
+    this.selectedOriginalItem = (this.selectedOriginalItem === original) ? undefined : original;
+    this.selectedOriginalItemChange.emit(this.selectedOriginalItem);
   }
 
   /**
