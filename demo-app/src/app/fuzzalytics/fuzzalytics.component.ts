@@ -17,8 +17,15 @@ export class FuzzalyticsComponent implements OnChanges {
   public queryArr: string[];
 
   public traversedCellsIndex: any = [];
+  public worstPossibleEditDistance: number;
+
+  public viewOps = false;
+
+  public legendScores = [1, 0.75, 0.5, 0.25, 0];
+  public legendScoreColors: string[];
 
   constructor() {
+    this.legendScoreColors = this.legendScores.map((legendScore) => this.getColorByScore(legendScore));
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -37,7 +44,23 @@ export class FuzzalyticsComponent implements OnChanges {
         this.traversedCellsIndex[cell[0]] = this.traversedCellsIndex[cell[0]] || [];
         this.traversedCellsIndex[cell[0]][cell[1]] = true;
       });
+
+      this.worstPossibleEditDistance = this.fuzzalytics.worstPossibleEditDistance;
     }
+  }
+
+  public getColorByEditDistance(editDistance, worstPossible = this.worstPossibleEditDistance) {
+    const score = 1 - (editDistance / worstPossible)
+    return this.getColorByScore(score);
+  }
+
+  public getColorByScore(score: number) {
+    const normalizedScore = Math.round(score * 255);
+    const oppositeScore = 255 - normalizedScore;
+
+    const normalizedHex = normalizedScore.toString(16).padStart(2, '0');
+    const oppositeHex = oppositeScore.toString(16).padStart(2, '0');
+    return `#${oppositeHex}${normalizedHex}88`;
   }
 
 }

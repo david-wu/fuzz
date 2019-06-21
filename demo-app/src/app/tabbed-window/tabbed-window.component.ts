@@ -10,6 +10,7 @@ export class TabbedWindowComponent implements OnChanges {
   @Input() headerTabs: any[] = [];
   @Input() footerTabs: any[] = [];
   @Input() activeTab: any;
+  @Input() canUnselect: any = false;
 
   @Output() activeTabChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -24,7 +25,7 @@ export class TabbedWindowComponent implements OnChanges {
   }
 
   public selectActiveTab (activeTab: any) {
-    this.activeTab = this.activeTab === activeTab ? undefined : activeTab;
+    this.activeTab = (this.canUnselect && (this.activeTab === activeTab)) ? undefined : activeTab;
     this.activeTabChange.emit(activeTab);
   }
 }

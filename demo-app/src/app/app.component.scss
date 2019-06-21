@@ -6,12 +6,12 @@
 h2 {
   font-size: 1.5rem;
   font-weight: 700;
-  margin: 2rem 2rem;
+  margin: 2rem 2rem 1rem;
 }
 
 h3 {
   font-size: 1.5rem;
-  margin: 1rem 2rem;
+  margin: 2rem 2rem 1rem;
 }
 
 p {
@@ -20,8 +20,14 @@ p {
 }
 
 .demo-page-container {
-  height: 40rem;
+  height: 42.5rem;
   margin: 1rem 2rem;
   position: relative;
   background-color: #fdfdfd;
+}
+
+.usage-text-area {
+  width: 20rem;
+  height: 5rem;
+  resize: none;
 }

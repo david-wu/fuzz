@@ -11,6 +11,7 @@
     class="bottom"
     [footerTabs]="lowerTabs"
     [activeTab]="lowerTabs[1]"
+    [canUnselect]="true"
   ></app-tabbed-window>
 </div>
 <div *ngIf="!isSmallScreen" class="right-windows">
@@ -52,7 +53,8 @@
       <app-fuzz-item-list-viewer
         [fuzzItems]="filterSortedItems"
         [filterSortKeys]="searchKeys"
-        [(selectedOriginalItem)]="selectedOriginal"
+        [selectedFuzzItem]="freshestFuzzItem"
+        (selectedFuzzItemChange)="selectedFuzzItem = $event"
       ></app-fuzz-item-list-viewer>
     </div>
   </div>
@@ -63,7 +65,7 @@
 </ng-template>
 <ng-template #fuzzSearchOptionsPage>
   <div class="tab-page">
-    <div class="page-header">Set some options, and try another search!  Code sample will be generated below.</div>
+    <div class="page-header">Set some options and try another search!  Code sample will be generated below.</div>
     <div class="options-form">
       <label>
         <textarea></textarea>
@@ -93,13 +95,9 @@
         <input type="number">
         <span>filterThreshold</span>
       </label>
-      <label>
-        <textarea></textarea>
-        <span>editCosts</span>
-      </label>
     </div>
     <div class="text-area-container">
-      <textarea readonly>code is like this</textarea>
+      <textarea readonly>sample code</textarea>
     </div>
   </div>
 </ng-template>
@@ -126,12 +124,12 @@
   </div>
 </ng-template>
 
-<ng-template #fuzzItemDebuggerTab>SelectedItem</ng-template>
+<ng-template #fuzzItemDebuggerTab>FuzzItem</ng-template>
 <ng-template #fuzzItemDebuggerPage>
   <div class="tab-page">
-    <div *ngIf="!selectedFuzzItem" class="page-footer">Select a row from the "FuzzJs Search Demo" tab</div>
-    <div *ngIf="selectedFuzzItem" class="text-area-container fixed-height">
-      <textarea readonly>{{ selectedFuzzItem | json }}</textarea>
+    <div *ngIf="!freshestFuzzItem" class="page-footer">Select a row from above.</div>
+    <div *ngIf="freshestFuzzItem" class="text-area-container fixed-height">
+      <textarea readonly>{{ freshestFuzzItem | json }}</textarea>
     </div>
   </div>
 </ng-template>
@@ -139,12 +137,12 @@
 <ng-template #fuzzalyticsTab>Fuzzalytics</ng-template>
 <ng-template #fuzzalyticsPage>
   <div class="tab-page fixed">
-    <div *ngIf="selectedFuzzItem" class="fuzzalytics-container">
+    <div *ngIf="freshestFuzzItem" class="fuzzalytics-container">
       <app-fuzzalytics
-        [fuzzItem]="selectedFuzzItem"
+        [fuzzItem]="freshestFuzzItem"
         [fuzzalyticsByFuzzItem]="fuzz.diagnosticsByFuzzItem"
       ></app-fuzzalytics>
     </div>
-    <div *ngIf="!selectedFuzzItem" class="page-footer">Select a row from the "FuzzJs Search Demo" tab</div>
+    <div *ngIf="!freshestFuzzItem" class="page-footer">Select a row from above.</div>
   </div>
 </ng-template>

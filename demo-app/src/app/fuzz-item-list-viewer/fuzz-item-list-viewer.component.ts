@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { FuzzItem } from 'fuzz-js';
+import { scrollIntoView } from '../utils/scroll-into-view';
 
 @Component({
   selector: 'app-fuzz-item-list-viewer',
@@ -11,14 +12,39 @@ export class FuzzItemListViewerComponent {
 
   @Input() filterSortKeys: string[];
   @Input() fuzzItems: FuzzItem[];
-  @Input() selectedOriginalItem: any;
-  @Output() selectedOriginalItemChange: EventEmitter<any> = new EventEmitter<any>();
+  @Input() selectedFuzzItem: FuzzItem;
+  @Output() selectedFuzzItemChange: EventEmitter<FuzzItem> = new EventEmitter<FuzzItem>();
 
-  constructor() { }
+  @ViewChild('table', { static: true }) table;
 
-  public selectOriginalItem(original: any) {
-    this.selectedOriginalItem = (this.selectedOriginalItem === original) ? undefined : original;
-    this.selectedOriginalItemChange.emit(this.selectedOriginalItem);
+
+  constructor(
+    private hostEl: ElementRef,
+  ) { }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes.fuzzItems || changes.selectedFuzzItem) {
+      this.scrollSelectedFuzzItemIntoView();
+    }
+  }
+
+  public scrollSelectedFuzzItemIntoView() {
+    if (this.table) {
+      const selectedRowIndex = this.fuzzItems.findIndex((fuzzItem: FuzzItem) => {
+        return fuzzItem === this.selectedFuzzItem;
+      });
+      if (selectedRowIndex !== -1) {
+        const rowEls = this.table.nativeElement.getElementsByClassName('marker-class-for-scrolling-into-view');
+        if (rowEls[selectedRowIndex]) {
+          scrollIntoView(this.hostEl.nativeElement, rowEls[selectedRowIndex]);
+        }
+      }
+    }
+  }
+
+  public selectFuzzItem(fuzzItem: FuzzItem) {
+    this.selectedFuzzItem = (this.selectedFuzzItem === fuzzItem) ? undefined : fuzzItem;
+    this.selectedFuzzItemChange.emit(this.selectedFuzzItem);
   }
 
   /**

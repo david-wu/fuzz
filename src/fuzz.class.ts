@@ -6,6 +6,7 @@ export interface Fuzzalytics {
   editMatrix: number[][],
   operationMatrix: number[][],
   traversedCells: number[][],
+  worstPossibleEditDistance: number,
 }
 
 /**
@@ -27,6 +28,14 @@ export class Fuzz {
     const fdkf = new FuzzDeepKeyFinder();
     return fdkf.getAllKeys(items);
   }
+  public static search(
+    items: any[],
+    query: string,
+    options: Partial<Fuzz> = {},
+  ) {
+    const fuzz = new Fuzz();
+    return fuzz.search(items, query, options);
+  }
 
   public subjectKeys: string[] = [];
   public isCaseSensitive: boolean = false;
@@ -38,6 +47,7 @@ export class Fuzz {
   public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
 
   public diagnosticsByFuzzItem: WeakMap<FuzzItem, Fuzzalytics> = new WeakMap<FuzzItem, Fuzzalytics>();
+  public allFuzzItemsByKeyByOriginal: WeakMap<any, any> = new WeakMap<any, any>();
 
   constructor(
     public stringStyler: FuzzStringStyler = new FuzzStringStyler(),
@@ -52,6 +62,17 @@ export class Fuzz {
     Object.assign(this, options);
 
     let fuzzItems = this.getScoredFuzzItems(items, query, this.subjectKeys);
+
+    // Used for diagnostics
+    fuzzItems.forEach((fuzzItem: FuzzItem) => {
+      let fuzzItemsByKey = this.allFuzzItemsByKeyByOriginal.get(fuzzItem.original);
+      if (!fuzzItemsByKey) {
+        fuzzItemsByKey = {};
+      }
+      fuzzItemsByKey[fuzzItem.key] = fuzzItem;
+      this.allFuzzItemsByKeyByOriginal.set(fuzzItem.original, fuzzItemsByKey);
+    });
+
     if (!this.skipFilter && query) {
       fuzzItems = fuzzItems.filter((fuzzItem: FuzzItem) => fuzzItem.score >= this.filterThreshold);
     }
@@ -126,7 +147,9 @@ export class Fuzz {
       fuzzItem.editDistance = editMatrix[editMatrix.length - 1][editMatrix[0].length - 1];
       fuzzItem.score = (worstPossibleEditDistance === 0)
         ? 1
-        : ((worstPossibleEditDistance - fuzzItem.editDistance) / worstPossibleEditDistance);
+        : 1 - (fuzzItem.editDistance / worstPossibleEditDistance);
+
+      this.diagnosticsByFuzzItem.get(fuzzItem).worstPossibleEditDistance = worstPossibleEditDistance;
 
       fuzzItem.matchRanges = matchRanges;
       fuzzItem.styledString = this.stringStyler.styleWithTags(

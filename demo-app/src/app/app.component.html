@@ -1,22 +1,20 @@
 <h2 class="header">
-  fuzz-js
+  Fuzz-js
 </h2>
-<p>
-  JavaScript fuzzy string search library.
-  Finds in-exact string matches in any list of objects.
-</p>
+<p>JavaScript fuzzy string search library.</p>
+<p>Fuzz-js finds imperfect string matches in a given list of objects.</p>
 
 <h3 class="header">
   # Live Demo
 </h3>
 <p>
-  Type something into the input field to see it in action.
+  Type something into the input field below to see it in action!
 </p>
 <p>
   Generate or use your own sample data in the "Input Data" tab.
 </p>
 <p>
-  Click on the "Search Options & Code Sample" tab to try some different options.
+  todo: Click on the "Search Options & Code Sample" tab to try some different options.
 </p>
 
 <div class="demo-page-container">
@@ -27,19 +25,27 @@
   # Installing
 </h3>
 <p>npm install --save fuzz-js</p>
-<p>For useage examples, take a look in the "Search Options & Code Sample" tab in the Live Demo above (link)</p>
+
+<p>
+  <textarea readonly class="usage-text-area">
+  import {{'{'}} Fuzz {{'}'}} from 'fuzz-js';
+
+  const data = [ {{'{'}} name: 'Catherine' {{'}'}}, {{'{'}} name: 'Catalina' {{'}'}}];
+  const results = Fuzz.search(data, 'kathy');
+  </textarea>
+</p>
+
+<h3>
+  # Performance Discussion
+</h3>
+<p>It's O(query length * subject length) right now</p>
 
 <h3>
   # Similar libraries
 </h3>
 <p>
-  fuse.js, and link to npm compare
+  fuse.js seems to be the most popular library
 </p>
-
-<h3>
-  # Performance Discussion?
-</h3>
 <p>
-  O(query length * subject length)
+  Check out https://www.npmtrends.com/elasticlunr-vs-fuse.js-vs-fuzzy-vs-fuzzysearch-vs-lunr
 </p>
-

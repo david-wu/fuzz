@@ -39,8 +39,8 @@ export class DemoPageComponent implements AfterViewInit {
   public filterSortTime = 0;
 
   public fuzzItemsByOriginals: Map<any, FuzzItem> = new Map<any, FuzzItem>();
-  public selectedOriginal: any;
-  public fakeDataSize = 20;
+  public selectedFuzzItem: FuzzItem;
+  public fakeDataSize = 30;
 
   public allItemsString: string;
   public parseError: any;
@@ -122,7 +122,16 @@ export class DemoPageComponent implements AfterViewInit {
   public generateFakeData() {
     const allItems = [];
     for (let i = 0; i < this.fakeDataSize; i++) {
-      allItems.push(faker.helpers.userCard());
+      const siblingCount = Math.floor(Math.random() * 3);
+      const siblings = []
+      for (let j = 0; j <= siblingCount; j++) {
+        siblings.push(faker.name.findName());
+      }
+      allItems.push({
+        name: faker.name.findName(),
+        email: faker.internet.email(),
+        siblings,
+      });
     }
     this.setAllItems(allItems);
     this.allItemsString = JSON.stringify(allItems, null, 2);
@@ -146,8 +155,10 @@ export class DemoPageComponent implements AfterViewInit {
     });
   }
 
-  public get selectedFuzzItem() {
-    return this.fuzzItemsByOriginals && this.fuzzItemsByOriginals.get(this.selectedOriginal);
+  public get freshestFuzzItem() {
+    if (!this.selectedFuzzItem) {
+      return;
+    }
+    return this.fuzz.allFuzzItemsByKeyByOriginal.get(this.selectedFuzzItem.original)[this.selectedFuzzItem.key];
   }
-
 }

@@ -1,7 +1,7 @@
-<table>
+<table #table>
   <tr>
     <th class="score-column">
-      Score:
+      Score
     </th>
     <th *ngFor="let filterSortKey of filterSortKeys">
       {{ filterSortKey }}
@@ -9,9 +9,9 @@
   </tr>
   <tr
     *ngFor="let fuzzItem of fuzzItems"
-    class="clickable"
-    [class.selected]="selectedOriginalItem === fuzzItem.original"
-    (click)="selectOriginalItem(fuzzItem.original)"
+    class="clickable marker-class-for-scrolling-into-view"
+    [class.selected]="selectedFuzzItem === fuzzItem"
+    (click)="selectFuzzItem(fuzzItem)"
   >
     <td class="score-column">
       {{ (fuzzItem.score || 0) | number: '1.3-3' }}

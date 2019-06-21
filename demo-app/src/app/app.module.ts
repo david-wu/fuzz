@@ -9,6 +9,7 @@ import { DemoPageComponent } from './demo-page/demo-page.component';
 import { TabbedWindowComponent } from './tabbed-window/tabbed-window.component';
 import { FuzzItemListViewerComponent } from './fuzz-item-list-viewer/fuzz-item-list-viewer.component';
 import { FuzzalyticsComponent } from './fuzzalytics/fuzzalytics.component';
+import { OptionsAndCodeComponent } from './options-and-code/options-and-code.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { FuzzalyticsComponent } from './fuzzalytics/fuzzalytics.component';
     DemoPageComponent,
     TabbedWindowComponent,
     FuzzItemListViewerComponent,
-    FuzzalyticsComponent
+    FuzzalyticsComponent,
+    OptionsAndCodeComponent
   ],
   imports: [
     BrowserModule,

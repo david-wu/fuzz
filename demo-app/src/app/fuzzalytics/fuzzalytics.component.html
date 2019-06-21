@@ -1,20 +1,31 @@
 <div class="legend">
-  <div class="legend-entry">
-    <div class="cell del"></div>
-    <label>delete</label>
-  </div>
-  <div class="legend-entry">
-    <div class="cell ins"></div>
-    <label>insert</label>
-  </div>
-  <div class="legend-entry">
-    <div class="cell sub"></div>
-    <label>substitute</label>
-  </div>
-  <div class="legend-entry">
-    <div class="cell nop"></div>
-    <label>no op</label>
-  </div>
+  <button (click)="viewOps = !viewOps">
+    {{ viewOps ? 'Operation' : 'Score'}}
+  </button>
+  <ng-container *ngIf="viewOps">
+    <div class="legend-entry">
+      <div class="cell del"></div>
+      <label>delete</label>
+    </div>
+    <div class="legend-entry">
+      <div class="cell ins"></div>
+      <label>insert</label>
+    </div>
+    <div class="legend-entry">
+      <div class="cell sub"></div>
+      <label>substitute</label>
+    </div>
+    <div class="legend-entry">
+      <div class="cell nop"></div>
+      <label>no op</label>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!viewOps">
+    <div *ngFor="let score of legendScores; let legendIndex = index;" class="legend-entry">
+      <div class="cell" [style.background-color]="legendScoreColors[legendIndex]"></div>
+      <label>{{ score | number: '1.2-2'}}</label>
+    </div>
+  </ng-container>
 </div>
 <div class="matrix">
   <div class="label-row row">
@@ -23,17 +34,33 @@
     </div>
   </div>
 
-  <div *ngFor="let row of fuzzalytics.operationMatrix; let rowIndex = index;" class="row">
-    <div class="cell">
-      {{ queryArr[rowIndex + 1] }}
+  <ng-container *ngIf="viewOps">
+    <div *ngFor="let row of fuzzalytics.operationMatrix; let rowIndex = index;" class="row">
+      <div class="cell">
+        {{ queryArr[rowIndex + 1] }}
+      </div>
+      <div
+        *ngFor="let cell of row; let colIndex = index;"
+        class="cell"
+        [class.del]="cell === 0"
+        [class.ins]="cell === 1"
+        [class.sub]="cell === 2"
+        [class.nop]="cell === 3"
+      >{{ traversedCellsIndex[rowIndex][colIndex] ? 'o' : '' }}</div>
     </div>
-    <div
-      *ngFor="let cell of row; let colIndex = index;"
-      class="cell"
-      [class.del]="cell === 0"
-      [class.ins]="cell === 1"
-      [class.sub]="cell === 2"
-      [class.nop]="cell === 3"
-    >{{ traversedCellsIndex[rowIndex][colIndex] ? 'o' : '' }}</div>
-  </div>
+  </ng-container>
+
+  <ng-container *ngIf="!viewOps">
+    <div *ngFor="let row of fuzzalytics.editMatrix; let rowIndex = index;" class="row">
+      <div class="cell">
+        {{ queryArr[rowIndex + 1] }}
+      </div>
+      <div
+        *ngFor="let cell of row; let colIndex = index;"
+        class="cell"
+        [style.background-color]="getColorByEditDistance(cell)"
+      >{{ traversedCellsIndex[rowIndex][colIndex] ? 'o' : '' }}</div>
+    </div>
+  </ng-container>
+
 </div>
