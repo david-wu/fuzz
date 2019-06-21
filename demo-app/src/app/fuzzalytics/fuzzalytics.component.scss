@@ -65,16 +65,16 @@
   line-height: 2rem;
   text-align: center;
   &.del {
-    background-color: #ffdddd;
+    background-color: #ffaaaa;
   }
   &.ins {
-    background-color: #ddffdd;
+    background-color: #aaffaa;
   }
   &.sub {
-    background-color: #ffffdd;
+    background-color: #ffffaa;
   }
   &.nop {
-    background-color: #ffffff;
+    background-color: #eeeeee;
   }
 
 }

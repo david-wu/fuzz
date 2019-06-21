@@ -4,14 +4,14 @@
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  margin: 2rem 2rem 1rem;
+  margin: 2rem 2rem 0.5rem;
 }
 
 h3 {
   font-size: 1.5rem;
-  margin: 2rem 2rem 1rem;
+  margin: 2rem 2rem 0.5rem;
 }
 
 p {
@@ -26,8 +26,15 @@ p {
   background-color: #fdfdfd;
 }
 
-.usage-text-area {
-  width: 20rem;
-  height: 5rem;
-  resize: none;
+pre.code {
+  box-shadow: 2px 2px 5px 2px #aaaaaa;
+  margin: 0.5rem 2rem;
+  max-width: 40rem;
+  font-family: "Courier New", Courier, monospace;
+  line-height: 1.1rem;
+  font-size: 0.9rem;
+  code {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+  }
 }

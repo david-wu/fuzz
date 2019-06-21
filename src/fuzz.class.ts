@@ -28,6 +28,19 @@ export class Fuzz {
     const fdkf = new FuzzDeepKeyFinder();
     return fdkf.getAllKeys(items);
   }
+
+  public static filter(
+    items: any[],
+    query: string,
+    options: Partial<Fuzz> = {},
+  ) {
+    return Fuzz.search(
+      items,
+      query,
+      options,
+    ).map((fuzzItem: FuzzItem) => fuzzItem.original);
+  }
+
   public static search(
     items: any[],
     query: string,
