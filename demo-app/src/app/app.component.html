@@ -1,16 +1,22 @@
-<h2 class="header">Fuzz-js</h2>
-<p>JavaScript fuzzy string search library.</p>
-<p>Fuzz-js finds imperfect string matches in a given list of objects.</p>
+<h2 class="header">fuzz-js</h2>
+<p>
+  fuzz-js is an open source fuzzy string searching library written in JavaScript.
+  It finds imperfect string matches inside a given array of objects.
+</p>
+<p>
+  I was motivated to build fuzz-js because I found it difficult to understand the algorithms behind other popular libraries.
+  The matches that showed up were sometimes difficult to explain.
+</p>
+<p>
+  The demo below helps visualize the scoring process of fuzz-js.
+  I hope it will keep the workings of fuzz-js transparent.
+</p>
+
 
 <h3 class="header"># Live Demo</h3>
 <p>
   Type something into the input field below to see it in action!
-</p>
-<p>
-  Generate or use your own sample data in the "Input Data" tab.
-</p>
-<p>
-  todo: Click on the "Search Options & Code Sample" tab to try some different options.
+  Click on a row in the table to visualize how the string was scored.
 </p>
 
 <div class="demo-page-container">
@@ -25,20 +31,27 @@
 <pre class="code"><code>{{ codeBlocks.howToUse }}</code></pre>
 
 <h3># Advanced Usage</h3>
-<p>The "search" function provide additional search information in the results.</p>
-<p>For a full list of options, check out the "Search Options" tab in the demo above.</p>
+<p>
+  The "search" function provide additional search information in the results.
+  For a full list of options, check out the "Search Options" tab in the demo above.
+</p>
 <pre class="code"><code>{{ codeBlocks.howToUseHard }}</code></pre>
-
-<h3># Performance Discussion</h3>
-<p>It's O(query length * subject length) right now.</p>
 
 <h3># Similar libraries</h3>
 <p>
-  fuse.js seems to be the most popular library
+  fuse.js seems to be the most popular alternative.
+  <a href="https://fusejs.io/" target="_blank">https://fusejs.io/</a>
 </p>
 <p>
-  Check out
+  Also check out npmtrends for some alternatives here:
   <a href="https://www.npmtrends.com/elasticlunr-vs-fuse.js-vs-fuzzy-vs-fuzzysearch-vs-lunr" target="_blank">
     https://www.npmtrends.com/elasticlunr-vs-fuse.js-vs-fuzzy-vs-fuzzysearch-vs-lunr
   </a>
+</p>
+
+
+<h3># Github</h3>
+<p>
+  Check it out here!
+  <a href="https://github.com/david-wu/fuzz" target="_blank">https://github.com/david-wu/fuzz</a>
 </p>

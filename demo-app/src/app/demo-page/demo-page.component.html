@@ -61,7 +61,7 @@
 </ng-template>
 
 <ng-template #fuzzSearchOptionsTab>
-  Search Options & Code Sample
+  Search Options
 </ng-template>
 <ng-template #fuzzSearchOptionsPage>
   <div class="tab-page">
@@ -106,7 +106,7 @@
 <ng-template #fuzzDataPage>
   <div class="tab-page">
     <div class="page-header input-data-page-header">
-      <div class="header-text">Click the "Generate" button, or type in some JSON formatted data.</div>
+      <div class="header-text">Click the "Generate" button, or paste in some JSON formatted data.</div>
       <div class="button-battery">
         <label class="size-input">
           <span>Size:</span>
@@ -127,7 +127,7 @@
 <ng-template #fuzzItemDebuggerTab>FuzzItem</ng-template>
 <ng-template #fuzzItemDebuggerPage>
   <div class="tab-page">
-    <div *ngIf="!freshestFuzzItem" class="page-footer">Select a row from above.</div>
+    <div *ngIf="!freshestFuzzItem" class="page-footer">Select a row above to view the FuzzItem.</div>
     <div *ngIf="freshestFuzzItem" class="text-area-container fixed-height">
       <textarea readonly>{{ freshestFuzzItem | json }}</textarea>
     </div>
@@ -143,6 +143,6 @@
         [fuzzalyticsByFuzzItem]="fuzz.diagnosticsByFuzzItem"
       ></app-fuzzalytics>
     </div>
-    <div *ngIf="!freshestFuzzItem" class="page-footer">Select a row from above.</div>
+    <div *ngIf="!freshestFuzzItem" class="page-footer">Select a row above for match explanation.</div>
   </div>
 </ng-template>

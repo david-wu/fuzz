@@ -1,6 +1,8 @@
 <div class="legend">
   <button (click)="viewOps = !viewOps">
-    {{ viewOps ? 'Operation' : 'Score'}}
+    <span class="toggle-button-text">{{ viewOps ? 'Operation' : 'Score'}}</span>
+    <span *ngIf="viewOps">&#x21c4;</span>
+    <span *ngIf="!viewOps">&#x21c6;</span>
   </button>
   <ng-container *ngIf="viewOps">
     <div class="legend-entry">

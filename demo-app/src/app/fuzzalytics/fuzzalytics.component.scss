@@ -37,6 +37,9 @@
   min-height: 10rem;
   button {
     margin-bottom: 0.5rem;
+    .toggle-button-text {
+      margin-right: 0.25rem;
+    }
   }
   .legend-entry {
     margin: 0.25rem 0;
