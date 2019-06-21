@@ -129,7 +129,6 @@ export class DemoPageComponent implements AfterViewInit {
       }
       allItems.push({
         name: faker.name.findName(),
-        email: faker.internet.email(),
         siblings,
       });
     }
