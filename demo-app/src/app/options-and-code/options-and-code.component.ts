@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Fuzz } from 'fuzz-js';
+import { Fuzz, FuzzItem } from 'fuzz-js';
 import { each, isEqual, mapValues } from 'lodash';
 
 import hljs from 'highlight.js/lib/highlight';
@@ -19,9 +19,9 @@ enum DecoratorPair {
     './options-and-code.component.scss',
   ]
 })
-export class OptionsAndCodeComponent implements OnInit {
+export class OptionsAndCodeComponent {
 
-  @Input() options: Partial<FuzzItem>;
+  @Input() options: Partial<Fuzz>;
   @Output() optionsChange: EventEmitter<Partial<FuzzItem>> = new EventEmitter<Partial<FuzzItem>>();
 
   @ViewChild('codeEl', { static: false }) codeEl;
@@ -68,7 +68,6 @@ export class OptionsAndCodeComponent implements OnInit {
    */
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.options) {
-      console.log(this.options)
       this.optionsFormGroup.patchValue(
         this.optionsToFormGroupValues(this.options),
         { emitEvent: false },

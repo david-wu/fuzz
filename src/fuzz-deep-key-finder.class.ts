@@ -44,7 +44,9 @@ export class FuzzDeepKeyFinder {
 	}
 
 	public isSearchableValue(value: any): boolean {
-	  return ['string', 'number'].includes(typeof value);
+      const valueType = typeof value;
+      const index = ['string', 'number'].indexOf(valueType);
+	  return index !== -1;
 	}
 
 	public getKeys(targetObject: any) {

@@ -1,8 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints, MediaMatcher } from '@angular/cdk/layout';
 import * as faker from 'faker';
-// import * as Fuse from 'fuse.js;'
-const Fuse = require('fuse.js');
+import * as Fuse from 'fuse.js';
 
 import { Fuzz, FuzzItem } from 'fuzz-js';
 

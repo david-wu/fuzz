@@ -3,8 +3,8 @@ export interface FuzzItem {
     key: string;
     subject: string;
     query: string;
-    editMatrix: number[][];
     editDistance: number;
-    operationMatrix: number[][];
     matchRanges: number[][];
+    styledString: string;
+    score: number;
 }

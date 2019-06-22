@@ -1,7 +1,8 @@
 # fuzz
   Filters and sorts items based on edit distance
+  For a demo and installation instructions go to http://david-wu.github.io/assets/fuzz-js
 
-## Installing
+## Quick install
 `npm install --save fuzz-js`
 
 ## Usage:
