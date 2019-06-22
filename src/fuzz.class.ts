@@ -19,8 +19,8 @@ export class Fuzz {
     substitution: 101,
     deletion: 100,
     insertion: 100,
-    preQueryInsertion: 2,
-    postQueryInsertion: 1,
+    preQueryInsertion: 1,
+    postQueryInsertion: 0,
   }
 
   // just make this a util function

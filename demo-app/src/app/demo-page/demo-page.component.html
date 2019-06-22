@@ -74,6 +74,18 @@
       <div class="sort-time">search took: {{ fuseJsFilterSortTime }}ms</div>
     </div>
     <div class="results-container">
+      <div *ngIf="!sawFuseDisclaimer" class="page-header fuse-js-disclaimer">
+        <p>
+          Compare "Fuse.js" against "fuzz-js" search results.
+          "Fuse.js" works better when there are no arrays in the search objects.
+          Click the "Use Flat Data" button to generate new data.
+          You can also do this in the "Input Data" tab.
+        </p>
+        <div class="button-container">
+          <button (click)="generateFlatFakeData()">Use Flat Data</button>
+          <button (click)="this.sawFuseDisclaimer = true">Hide this message</button>
+        </div>
+      </div>
       <app-fuzz-item-list-viewer
         [fuzzItems]="fuseJsFilterItems"
         [filterSortKeys]="searchOptions.subjectKeys"
@@ -106,6 +118,7 @@
           <input type="number" [(ngModel)]="fakeDataSize">
         </label>
         <button (click)="generateFakeData()">Generate</button>
+        <button (click)="generateFlatFakeData()">Use Flat Data</button>
       </div>
     </div>
     <div class="text-area-container" [class.parse-error]="parseError">

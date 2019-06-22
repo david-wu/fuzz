@@ -160,6 +160,19 @@ export class DemoPageComponent implements AfterViewInit {
     this.allItemsString = JSON.stringify(allItems, null, 2);
   }
 
+  public generateFlatFakeData() {
+    const allItems = [];
+    for (let i = 0; i < this.fakeDataSize; i++) {
+      allItems.push({
+        name: faker.name.findName(),
+        email: faker.internet.email(),
+        city: faker.address.city(),
+      });
+    }
+    this.setAllItems(allItems);
+    this.allItemsString = JSON.stringify(allItems, null, 2);
+  }
+
   public setAllItems(allItems: any[]) {
     this.allItems = allItems;
     this.parseError = undefined;
@@ -168,6 +181,7 @@ export class DemoPageComponent implements AfterViewInit {
       subjectKeys: Fuzz.getAllKeys(allItems),
     };
     this.runQuery();
+    this.runFuseQuery();
   }
 
   public runQuery() {
@@ -187,11 +201,13 @@ export class DemoPageComponent implements AfterViewInit {
     this.fuseJsFilterSortTime = Date.now();
     var fuse = new Fuse(this.allItems, {
       keys: this.searchOptions.subjectKeys,
+      includeScore: true,
     });
     this.fuseJsFilterItems = fuse.search(this.filterSortQuery)
       .map((fuseJsFilterItem: any) => {
         return {
-          original: fuseJsFilterItem,
+          ...fuseJsFilterItem,
+          original: fuseJsFilterItem.item,
         };
       });
     this.fuseJsFilterSortTime = Date.now() - this.fuseJsFilterSortTime;

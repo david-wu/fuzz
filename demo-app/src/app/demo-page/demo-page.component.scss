@@ -56,6 +56,23 @@
     display: flex;
     align-items: center;
     min-height: 3.75rem;
+
+    &.fuse-js-disclaimer {
+      align-items: center;
+      p {
+        max-width: 30rem;
+        line-height: 1.5rem;
+      }
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        margin-left: 0.25rem;
+        button {
+          margin-bottom: 0.25rem;
+        }
+      }
+    }
+
   }
   .page-footer {
     flex: 0 0 auto;
