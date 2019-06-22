@@ -4,7 +4,6 @@
     [headerTabs]="isSmallScreen ? headerTabsLeft.concat(headerTabsRight) : headerTabsLeft"
     [activeTab]="selectedLeftHeaderTab"
     (activeTabChange)="selectedLeftHeaderTab = $event"
-
   ></app-tabbed-window>
   <app-tabbed-window
     *ngIf="selectedLeftHeaderTab === headerTabsLeft[1]"
@@ -52,9 +51,32 @@
     <div class="results-container">
       <app-fuzz-item-list-viewer
         [fuzzItems]="filterSortedItems"
-        [filterSortKeys]="searchOptions.searchKeys"
+        [filterSortKeys]="searchOptions.subjectKeys"
         [selectedFuzzItem]="freshestFuzzItem"
         (selectedFuzzItemChange)="selectedFuzzItem = $event"
+      ></app-fuzz-item-list-viewer>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #fuseJsSearchTab>
+  Compare with Fuse.js Demo
+</ng-template>
+<ng-template #fuseJsSearchPage>
+  <div class="tab-page">
+    <div class="page-header demo-container-header">
+      <input
+        type="text"
+        [ngModel]="filterSortQuery"
+        (ngModelChange)="onFilterSortQueryChange($event)"
+        placeholder="Enter search query.."
+      >
+      <div class="sort-time">search took: {{ fuseJsFilterSortTime }}ms</div>
+    </div>
+    <div class="results-container">
+      <app-fuzz-item-list-viewer
+        [fuzzItems]="fuseJsFilterItems"
+        [filterSortKeys]="searchOptions.subjectKeys"
       ></app-fuzz-item-list-viewer>
     </div>
   </div>

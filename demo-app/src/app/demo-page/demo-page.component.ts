@@ -1,6 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints, MediaMatcher } from '@angular/cdk/layout';
 import * as faker from 'faker';
+// import * as Fuse from 'fuse.js;'
+const Fuse = require('fuse.js');
 
 import { Fuzz, FuzzItem } from 'fuzz-js';
 
@@ -27,6 +29,9 @@ export class DemoPageComponent implements AfterViewInit {
   @ViewChild('fuzzalyticsTab', { static: true }) fuzzalyticsTab;
   @ViewChild('fuzzalyticsPage', { static: true }) fuzzalyticsPage;
 
+  @ViewChild('fuseJsSearchTab', { static: true }) fuseJsSearchTab;
+  @ViewChild('fuseJsSearchPage', { static: true }) fuseJsSearchPage;
+
   public headerTabsRight: any[] = [];
   public headerTabsLeft: any[] = [];
   public lowerTabs: any[] = [];
@@ -40,7 +45,6 @@ export class DemoPageComponent implements AfterViewInit {
   public filterSortedItems: FuzzItem[];
   public filterSortTime = 0;
 
-  public fuzzItemsByOriginals: Map<any, FuzzItem> = new Map<any, FuzzItem>();
   public selectedFuzzItem: FuzzItem;
   public fakeDataSize = 30;
 
@@ -48,7 +52,11 @@ export class DemoPageComponent implements AfterViewInit {
   public parseError: any;
 
   public isSmallScreen: boolean;
-  public searchOptions: Partial<Fuzz> = { subjectKeys: this.searchKeys };
+  public searchOptions: Partial<Fuzz> = {};
+
+  public fuseJsFilterQuery: string = '';
+  public fuseJsFilterItems: any[];
+  public fuseJsFilterSortTime: number;
 
   /**
    * constructor
@@ -78,6 +86,10 @@ export class DemoPageComponent implements AfterViewInit {
       {
         tabTemplate: this.fuzzSearchTab,
         pageTemplate: this.fuzzSearchPage,
+      },
+      {
+        tabTemplate: this.fuseJsSearchTab,
+        pageTemplate: this.fuseJsSearchPage,
       },
     ];
     this.selectedLeftHeaderTab = this.headerTabsLeft[1];
@@ -119,6 +131,7 @@ export class DemoPageComponent implements AfterViewInit {
   public onFilterSortQueryChange(filterSortQuery: string) {
     this.filterSortQuery = filterSortQuery;
     this.runQuery();
+    this.runFuseQuery();
   }
 
   public allItemsStringChange(allItemsString: string) {
@@ -152,7 +165,7 @@ export class DemoPageComponent implements AfterViewInit {
     this.parseError = undefined;
     this.searchOptions = {
       ...this.searchOptions,
-      searchKeys: Fuzz.getAllKeys(allItems),
+      subjectKeys: Fuzz.getAllKeys(allItems),
     };
     this.runQuery();
   }
@@ -161,11 +174,6 @@ export class DemoPageComponent implements AfterViewInit {
     this.filterSortTime = Date.now();
     this.filterSortedItems = this.fuzz.search(this.allItems, this.filterSortQuery, this.searchOptions);
     this.filterSortTime = Date.now() - this.filterSortTime;
-
-    this.fuzzItemsByOriginals = new Map<any, FuzzItem>();
-    this.filterSortedItems.forEach((fuzzItem: FuzzItem) => {
-      this.fuzzItemsByOriginals.set(fuzzItem.original, fuzzItem);
-    });
   }
 
   public get freshestFuzzItem() {
@@ -174,4 +182,19 @@ export class DemoPageComponent implements AfterViewInit {
     }
     return this.fuzz.allFuzzItemsByKeyByOriginal.get(this.selectedFuzzItem.original)[this.selectedFuzzItem.key];
   }
+
+  public runFuseQuery() {
+    this.fuseJsFilterSortTime = Date.now();
+    var fuse = new Fuse(this.allItems, {
+      keys: this.searchOptions.subjectKeys,
+    });
+    this.fuseJsFilterItems = fuse.search(this.filterSortQuery)
+      .map((fuseJsFilterItem: any) => {
+        return {
+          original: fuseJsFilterItem,
+        };
+      });
+    this.fuseJsFilterSortTime = Date.now() - this.fuseJsFilterSortTime;
+  }
+
 }

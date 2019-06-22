@@ -57,8 +57,8 @@ export class Fuzz {
   public startDecorator = '<b>';
   public endDecorator = '</b>';
   public filterThreshold: number = Fuzz.DEFAULT_FILTER_THRESHOLD;
-  public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
 
+  public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
   public diagnosticsByFuzzItem: WeakMap<FuzzItem, Fuzzalytics> = new WeakMap<FuzzItem, Fuzzalytics>();
   public allFuzzItemsByKeyByOriginal: WeakMap<any, any> = new WeakMap<any, any>();
 

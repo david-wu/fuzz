@@ -31,26 +31,28 @@ const results = Fuzz.filter(users, 'mggi');
 const users = [
   { name: 'Allen', occupation: 'therapist' },
   { name: 'Maggie', occupation: 'musician' },
-  { name: 'Margret', occuation: 'magician' },
+  { name: 'Margret', occupation: 'magician' },
 ];
 const options = {
+  subjectKeys: ['occupation'],
   startDecorator: '<i>',
   endDecorator: '</i>',
 };
-const results = Fuzz.search(users, 'mggi', options);
+const results = Fuzz.search(users, 'maggi', options);
   /**
-   * [
-   *   {
-   *     "original": { "name": "Maggie" },
-   *     "key": "name",
-   *     "subject": "Maggie",
-   *     "query": "mggi",
-   *     "editDistance": 102,
-   *     "score": 0.7487684729064039,
-   *     "matchRanges": [[0, 0], [2, 4]],
-   *     "styledString": "<i>M</i>a<i>ggi</i>e"
-   *   }
-   * ]
+   *
+   *  [
+   *    {
+   *      "original": { "name": "Margret", "occupation": "magician" },
+   *      "key": "occupation",
+   *      "subject": "magician",
+   *      "query": "maggi",
+   *      "editDistance": 108,
+   *      "score": 0.7874015748031495,
+   *      "matchRanges": [[0, 3]],
+   *      "styledString": "<i>magi</i>cian"
+   *    }
+   *  ]
    */`,
   };
 

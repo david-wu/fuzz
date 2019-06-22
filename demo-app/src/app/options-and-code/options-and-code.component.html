@@ -1,10 +1,6 @@
 
 <form [formGroup]="optionsFormGroup" class="options-form">
   <label class="input-container">
-    <span>subjectKeys</span>
-    <textarea></textarea>
-  </label>
-  <label class="input-container">
     <span>caseSensitive</span>
     <input formControlName="caseSensitive" type="checkbox">
   </label>
@@ -24,21 +20,14 @@
     <span>Decorator</span>
     <div class="radio-button-group">
       <label class="radio-button-label">
-        <input type="radio" value="DecoratorPair.BOLD" formControlName="decorator">
+        <input type="radio" [value]="DecoratorPair.BOLD" formControlName="decoratorPair">
         <div>bold</div>
       </label>
       <label class="radio-button-label">
-        <input type="radio" value="DecoratorPair.ITALIC" formControlName="decorator">
+        <input type="radio" [value]="DecoratorPair.ITALIC" formControlName="decoratorPair">
         <div>italic</div>
       </label>
     </div>
   </div>
-<!--   <label class="input-container">
-    <span>startDecorator</span>
-  </label>
-  <label class="input-container">
-    <span>endDecorator</span>
-    <input formControlName="endDecorator" type="text">
-  </label> -->
 </form>
 <pre class="code"><code #codeEl>{{ sampleCode }}</code></pre>
