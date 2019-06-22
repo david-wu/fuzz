@@ -1,3 +1,44 @@
-<p>
-  options-and-code works!
-</p>
+
+<form [formGroup]="optionsFormGroup" class="options-form">
+  <label class="input-container">
+    <span>subjectKeys</span>
+    <textarea></textarea>
+  </label>
+  <label class="input-container">
+    <span>caseSensitive</span>
+    <input formControlName="caseSensitive" type="checkbox">
+  </label>
+  <label class="input-container">
+    <span>skipFilter</span>
+    <input formControlName="skipFilter" type="checkbox">
+  </label>
+  <label class="input-container">
+    <span>skipSort</span>
+    <input formControlName="skipSort" type="checkbox">
+  </label>
+  <label class="input-container">
+    <span>filterThreshold</span>
+    <input formControlName="filterThreshold" type="number" min="0" max="1" step="0.1">
+  </label>
+  <div class="input-container">
+    <span>Decorator</span>
+    <div class="radio-button-group">
+      <label class="radio-button-label">
+        <input type="radio" value="DecoratorPair.BOLD" formControlName="decorator">
+        <div>bold</div>
+      </label>
+      <label class="radio-button-label">
+        <input type="radio" value="DecoratorPair.ITALIC" formControlName="decorator">
+        <div>italic</div>
+      </label>
+    </div>
+  </div>
+<!--   <label class="input-container">
+    <span>startDecorator</span>
+  </label>
+  <label class="input-container">
+    <span>endDecorator</span>
+    <input formControlName="endDecorator" type="text">
+  </label> -->
+</form>
+<pre class="code"><code #codeEl>{{ sampleCode }}</code></pre>

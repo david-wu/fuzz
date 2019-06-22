@@ -1,8 +1,4 @@
 
-
-/**
- * scrollIntoView
- */
 export function scrollIntoView(parentEl, targetEl) {
   const parentRect = parentEl.getBoundingClientRect();
   const targetRect = targetEl.getBoundingClientRect();

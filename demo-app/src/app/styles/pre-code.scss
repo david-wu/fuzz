@@ -1,0 +1,18 @@
+
+pre.code {
+  font-family: "Courier New", Courier, monospace;
+  line-height: 1.1rem;
+  font-size: 0.9rem;
+  code {
+    padding: 0.5rem 1rem;
+  }
+
+  &.stand-alone {
+    box-shadow: 2px 2px 5px 2px #aaaaaa;
+    margin: 0.5rem 2rem;
+    max-width: 40rem;
+    code {
+      border-radius: 0.25rem;
+    }
+  }
+}

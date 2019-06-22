@@ -7,7 +7,10 @@ import { Fuzz, FuzzItem } from 'fuzz-js';
 @Component({
   selector: 'app-demo-page',
   templateUrl: './demo-page.component.html',
-  styleUrls: ['./demo-page.component.scss']
+  styleUrls: [
+    './demo-page.component.scss',
+    '../styles/text-area-container.scss',
+  ]
 })
 export class DemoPageComponent implements AfterViewInit {
 
@@ -34,7 +37,6 @@ export class DemoPageComponent implements AfterViewInit {
   public allItems: any[];
   public filterSortQuery = '';
 
-  public searchKeys: string[];
   public filterSortedItems: FuzzItem[];
   public filterSortTime = 0;
 
@@ -46,6 +48,7 @@ export class DemoPageComponent implements AfterViewInit {
   public parseError: any;
 
   public isSmallScreen: boolean;
+  public searchOptions: Partial<Fuzz> = { subjectKeys: this.searchKeys };
 
   /**
    * constructor
@@ -59,10 +62,10 @@ export class DemoPageComponent implements AfterViewInit {
     this.onFilterSortQueryChange(this.filterSortQuery);
 
     this.breakpointObserver.observe([
-      '(max-width: 849px)'
+      '(max-width: 899px)'
     ])
       .subscribe((res) => {
-        this.isSmallScreen = this.mediaMatcher.matchMedia('(max-width: 849px)').matches;
+        this.isSmallScreen = this.mediaMatcher.matchMedia('(max-width: 899px)').matches;
       });
   }
 
@@ -102,6 +105,14 @@ export class DemoPageComponent implements AfterViewInit {
     this.changeDetectorRef.detectChanges();
   }
 
+  public onSearchOptionsChange(searchOptions) {
+    this.searchOptions = {
+      ...this.searchOptions,
+      ...searchOptions,
+    };
+    this.runQuery();
+  }
+
   /**
    * onFilterSortQueryChange
    */
@@ -139,13 +150,16 @@ export class DemoPageComponent implements AfterViewInit {
   public setAllItems(allItems: any[]) {
     this.allItems = allItems;
     this.parseError = undefined;
-    this.searchKeys = Fuzz.getAllKeys(allItems);
+    this.searchOptions = {
+      ...this.searchOptions,
+      searchKeys: Fuzz.getAllKeys(allItems),
+    };
     this.runQuery();
   }
 
   public runQuery() {
     this.filterSortTime = Date.now();
-    this.filterSortedItems = this.fuzz.search(this.allItems, this.filterSortQuery, { subjectKeys: this.searchKeys });
+    this.filterSortedItems = this.fuzz.search(this.allItems, this.filterSortQuery, this.searchOptions);
     this.filterSortTime = Date.now() - this.filterSortTime;
 
     this.fuzzItemsByOriginals = new Map<any, FuzzItem>();

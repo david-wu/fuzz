@@ -7,7 +7,10 @@ import typescript from 'highlight.js/lib/languages/typescript';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: [
+    './styles/pre-code.scss',
+    './app.component.scss',
+  ],
 })
 export class AppComponent implements AfterViewInit {
 

@@ -51,7 +51,7 @@ export class Fuzz {
   }
 
   public subjectKeys: string[] = [];
-  public isCaseSensitive: boolean = false;
+  public caseSensitive: boolean = false;
   public skipFilter: boolean = false;
   public skipSort: boolean = false;
   public startDecorator = '<b>';
@@ -141,8 +141,8 @@ export class Fuzz {
       );
       const operationMatrix = this.fillEditMatrix(
         editMatrix,
-        this.isCaseSensitive ? fuzzItem.query : fuzzItem.query.toLowerCase(),
-        this.isCaseSensitive ? fuzzItem.subject : fuzzItem.subject.toLowerCase(),
+        this.caseSensitive ? fuzzItem.query : fuzzItem.query.toLowerCase(),
+        this.caseSensitive ? fuzzItem.subject : fuzzItem.subject.toLowerCase(),
         this.editCosts,
       );
       const [matchRanges, traversedCells] = this.getMatchRanges(operationMatrix);

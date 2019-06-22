@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule} from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppComponent } from './app.component';
@@ -24,6 +24,7 @@ import { OptionsAndCodeComponent } from './options-and-code/options-and-code.com
     BrowserModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     LayoutModule,
   ],
   bootstrap: [AppComponent]

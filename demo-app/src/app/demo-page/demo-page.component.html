@@ -24,7 +24,7 @@
 </div>
 
 <ng-template #fuzzSearchResultsTab>
-  Results
+  All Results
 </ng-template>
 <ng-template #fuzzSearchResultsPage>
   <div class="tab-page">
@@ -52,7 +52,7 @@
     <div class="results-container">
       <app-fuzz-item-list-viewer
         [fuzzItems]="filterSortedItems"
-        [filterSortKeys]="searchKeys"
+        [filterSortKeys]="searchOptions.searchKeys"
         [selectedFuzzItem]="freshestFuzzItem"
         (selectedFuzzItemChange)="selectedFuzzItem = $event"
       ></app-fuzz-item-list-viewer>
@@ -66,39 +66,10 @@
 <ng-template #fuzzSearchOptionsPage>
   <div class="tab-page">
     <div class="page-header">Set some options and try another search!  Code sample will be generated below.</div>
-    <div class="options-form">
-      <label>
-        <textarea></textarea>
-        <span>subjectKeys</span>
-      </label>
-      <label>
-        <input type="checkbox">
-        <span>isCaseSensitive</span>
-      </label>
-      <label>
-        <input type="checkbox">
-        <span>skipFilter</span>
-      </label>
-      <label>
-        <input type="checkbox">
-        <span>skipSort</span>
-      </label>
-      <label>
-        <input type="text">
-        <span>startDecorator</span>
-      </label>
-      <label>
-        <input type="text">
-        <span>endDecorator</span>
-      </label>
-      <label>
-        <input type="number">
-        <span>filterThreshold</span>
-      </label>
-    </div>
-    <div class="text-area-container">
-      <textarea readonly>sample code</textarea>
-    </div>
+    <app-options-and-code
+      [options]="searchOptions"
+      (optionsChange)="onSearchOptionsChange($event)"
+    ></app-options-and-code>
   </div>
 </ng-template>
 

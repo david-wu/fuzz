@@ -25,19 +25,28 @@ export class FuzzItemListViewerComponent {
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.fuzzItems || changes.selectedFuzzItem) {
       this.scrollSelectedFuzzItemIntoView();
+
+    }
+
+    if(changes.fuzzItems) {
+      if (!this.fuzzItems.includes(this.selectedFuzzItem)) {
+        this.hostEl.nativeElement.scroll(0, 0);
+      }
     }
   }
 
   public scrollSelectedFuzzItemIntoView() {
-    if (this.table) {
-      const selectedRowIndex = this.fuzzItems.findIndex((fuzzItem: FuzzItem) => {
-        return fuzzItem === this.selectedFuzzItem;
-      });
-      if (selectedRowIndex !== -1) {
-        const rowEls = this.table.nativeElement.getElementsByClassName('marker-class-for-scrolling-into-view');
-        if (rowEls[selectedRowIndex]) {
-          scrollIntoView(this.hostEl.nativeElement, rowEls[selectedRowIndex]);
-        }
+    if (!this.table) {
+      return;
+    }
+
+    const selectedRowIndex = this.fuzzItems.findIndex((fuzzItem: FuzzItem) => {
+      return fuzzItem === this.selectedFuzzItem;
+    });
+    if (selectedRowIndex !== -1) {
+      const rowEls = this.table.nativeElement.getElementsByClassName('marker-class-for-scrolling-into-view');
+      if (rowEls[selectedRowIndex]) {
+        scrollIntoView(this.hostEl.nativeElement, rowEls[selectedRowIndex]);
       }
     }
   }
