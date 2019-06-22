@@ -30,16 +30,19 @@
 }
 
 .legend {
-  padding: 0.5rem 0.5rem 0;
+  padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
   min-width: 8rem;
-  min-height: 10rem;
+  min-height: 11rem;
   button {
     margin-bottom: 0.5rem;
     .toggle-button-text {
       margin-right: 0.25rem;
     }
+  }
+  .legend-title {
+    margin-bottom: 0.5rem;
   }
   .legend-entry {
     margin: 0.25rem 0;

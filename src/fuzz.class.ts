@@ -19,8 +19,8 @@ export class Fuzz {
     substitution: 101,
     deletion: 100,
     insertion: 100,
-    preQueryInsertion: 1,
-    postQueryInsertion: 2,
+    preQueryInsertion: 2,
+    postQueryInsertion: 1,
   }
 
   // just make this a util function
@@ -153,9 +153,13 @@ export class Fuzz {
         traversedCells,
       } as Fuzzalytics);
 
-      // this equation could change based on editCosts!
-      const worstPossibleEditDistance = (fuzzItem.query.length * this.editCosts.deletion)
-        + (fuzzItem.subject.length * Math.min(this.editCosts.postQueryInsertion, this.editCosts.preQueryInsertion));
+      let worstPossibleEditDistance = fuzzItem.query.length * this.editCosts.deletion;
+
+      if (!fuzzItem.query.length) {
+        worstPossibleEditDistance += (fuzzItem.subject.length * this.editCosts.preQueryInsertion);
+      } else {
+        worstPossibleEditDistance += (fuzzItem.subject.length * Math.min(this.editCosts.postQueryInsertion, this.editCosts.preQueryInsertion));
+      }
 
       fuzzItem.editDistance = editMatrix[editMatrix.length - 1][editMatrix[0].length - 1];
       fuzzItem.score = (worstPossibleEditDistance === 0)
