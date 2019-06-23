@@ -1,8 +1,6 @@
 <div class="legend">
   <button (click)="viewOps = !viewOps">
-    <span class="toggle-button-text">{{ viewOps ? 'View Scores' : 'View Ops'}}</span>
-    <span *ngIf="viewOps">&#x21c4;</span>
-    <span *ngIf="!viewOps">&#x21c6;</span>
+    <span>{{ viewOps ? 'View Scores' : 'View Ops'}}</span>
   </button>
   <div class="legend-title">{{ viewOps ? 'Operation' : 'Score'}}</div>
   <ng-container *ngIf="viewOps">

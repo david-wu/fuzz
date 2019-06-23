@@ -19,6 +19,9 @@ p {
   max-width: 30rem;
   line-height: 1.5rem;
 }
+img {
+  max-width: 100%;
+}
 
 .demo-page-container {
   height: 40rem;
@@ -31,4 +34,11 @@ pre.code {
   box-shadow: 2px 2px 5px 2px #aaaaaa;
   margin: 0.5rem 2rem;
   max-width: 40rem;
+}
+
+@media (max-width: 767px) {
+  p, h2, h3, .demo-page-container, pre.code:not(.code-fills-container) {
+    margin-left: 0.5rem;
+    margin-right: 1.25rem;
+  }
 }

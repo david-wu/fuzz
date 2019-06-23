@@ -29,6 +29,7 @@
         background-color: #f8f8f8;
       }
       &.active {
+        flex: 0 0 auto;
         background-color: #fdfdfd;
       }
     }
