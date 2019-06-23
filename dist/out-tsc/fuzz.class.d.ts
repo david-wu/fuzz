@@ -1,16 +1,11 @@
 import { EditCosts, FuzzItem } from './models/index';
 import { FuzzStringStyler } from './fuzz-string-styler.class';
 import { FuzzDeepKeyFinder } from './fuzz-deep-key-finder.class';
-export interface Fuzzalytics {
-    editMatrix: number[][];
-    operationMatrix: number[][];
-    traversedCells: number[][];
-    worstPossibleEditDistance: number;
-}
+import { FuzzDiagnostics } from './fuzz-diagnostics.class';
 export declare class Fuzz {
     stringStyler: FuzzStringStyler;
     keyFinder: FuzzDeepKeyFinder;
-    static readonly DEFAULT_FILTER_THRESHOLD: number;
+    diagnostics: FuzzDiagnostics;
     static readonly DEFAULT_EDIT_COSTS: EditCosts;
     static getAllKeys(items: any[]): string[];
     static filter(items: any[], query: string, options?: Partial<Fuzz>): any[];
@@ -23,9 +18,7 @@ export declare class Fuzz {
     endDecorator: string;
     filterThreshold: number;
     editCosts: EditCosts;
-    diagnosticsByFuzzItem: WeakMap<FuzzItem, Fuzzalytics>;
-    allFuzzItemsByKeyByOriginal: WeakMap<any, any>;
-    constructor(stringStyler?: FuzzStringStyler, keyFinder?: FuzzDeepKeyFinder);
+    constructor(stringStyler?: FuzzStringStyler, keyFinder?: FuzzDeepKeyFinder, diagnostics?: FuzzDiagnostics);
     search(items: any[], query: string, options?: Partial<Fuzz>): any[];
     getScoredFuzzItems(items: any[], query: string, subjectKeys?: string[]): FuzzItem[];
     getFuzzItems(items: any[], subjectKeys: string[], query: string): FuzzItem[];

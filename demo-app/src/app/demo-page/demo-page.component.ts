@@ -102,7 +102,7 @@ export class DemoPageComponent implements AfterViewInit {
         pageTemplate: this.fuzzSearchResultsPage,
       },
     ];
-    this.selectedRightHeaderTab = this.headerTabsRight[1];
+    this.selectedRightHeaderTab = this.headerTabsRight[0];
     this.lowerTabs = [
       {
         tabTemplate: this.fuzzItemDebuggerTab,
@@ -189,11 +189,14 @@ export class DemoPageComponent implements AfterViewInit {
     this.filterSortTime = Date.now() - this.filterSortTime;
   }
 
+  // if the selected fuzz item is no longer returned in the filter results
+  // this will still grab it from the index in Fuzz.diagnostics (using object ref of original)
   public get freshestFuzzItem() {
     if (!this.selectedFuzzItem) {
       return;
     }
-    return this.fuzz.allFuzzItemsByKeyByOriginal.get(this.selectedFuzzItem.original)[this.selectedFuzzItem.key];
+    return this.fuzz.diagnostics.allFuzzItemsByKeyByOriginal
+      .get(this.selectedFuzzItem.original)[this.selectedFuzzItem.key];
   }
 
   public runFuseQuery() {

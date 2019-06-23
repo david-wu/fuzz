@@ -1,20 +1,13 @@
 import { EditCosts, FuzzItem } from './models/index';
 import { FuzzStringStyler } from './fuzz-string-styler.class';
 import { FuzzDeepKeyFinder } from './fuzz-deep-key-finder.class';
-
-export interface Fuzzalytics {
-  editMatrix: number[][],
-  operationMatrix: number[][],
-  traversedCells: number[][],
-  worstPossibleEditDistance: number,
-}
+import { FuzzDiagnostics, Fuzzalytics } from './fuzz-diagnostics.class'
 
 /**
  * Fuzz
  */
 export class Fuzz {
 
-  public static readonly DEFAULT_FILTER_THRESHOLD: number = 0.4;
   public static readonly DEFAULT_EDIT_COSTS: EditCosts = {
     substitution: 101,
     deletion: 100,
@@ -23,7 +16,6 @@ export class Fuzz {
     postQueryInsertion: 0,
   }
 
-  // just make this a util function
   public static getAllKeys (items: any[]) {
     const fdkf = new FuzzDeepKeyFinder();
     return fdkf.getAllKeys(items);
@@ -56,15 +48,13 @@ export class Fuzz {
   public skipSort: boolean = false;
   public startDecorator = '<b>';
   public endDecorator = '</b>';
-  public filterThreshold: number = Fuzz.DEFAULT_FILTER_THRESHOLD;
-
+  public filterThreshold: number = 0.4;
   public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
-  public diagnosticsByFuzzItem: WeakMap<FuzzItem, Fuzzalytics> = new WeakMap<FuzzItem, Fuzzalytics>();
-  public allFuzzItemsByKeyByOriginal: WeakMap<any, any> = new WeakMap<any, any>();
 
   constructor(
     public stringStyler: FuzzStringStyler = new FuzzStringStyler(),
     public keyFinder: FuzzDeepKeyFinder = new FuzzDeepKeyFinder(),
+    public diagnostics: FuzzDiagnostics = new FuzzDiagnostics(),
   ) {}
 
   public search(
@@ -75,16 +65,7 @@ export class Fuzz {
     Object.assign(this, options);
 
     let fuzzItems = this.getScoredFuzzItems(items, query, this.subjectKeys);
-
-    // Used for diagnostics
-    fuzzItems.forEach((fuzzItem: FuzzItem) => {
-      let fuzzItemsByKey = this.allFuzzItemsByKeyByOriginal.get(fuzzItem.original);
-      if (!fuzzItemsByKey) {
-        fuzzItemsByKey = {};
-      }
-      fuzzItemsByKey[fuzzItem.key] = fuzzItem;
-      this.allFuzzItemsByKeyByOriginal.set(fuzzItem.original, fuzzItemsByKey);
-    });
+    this.diagnostics.indexFuzzItems(fuzzItems);
 
     if (!this.skipFilter && query) {
       fuzzItems = fuzzItems.filter((fuzzItem: FuzzItem) => fuzzItem.score >= this.filterThreshold);
@@ -147,14 +128,7 @@ export class Fuzz {
       );
       const [matchRanges, traversedCells] = this.getMatchRanges(operationMatrix);
 
-      this.diagnosticsByFuzzItem.set(fuzzItem, {
-        editMatrix,
-        operationMatrix,
-        traversedCells,
-      } as Fuzzalytics);
-
       let worstPossibleEditDistance = fuzzItem.query.length * this.editCosts.deletion;
-
       if (!fuzzItem.query.length) {
         worstPossibleEditDistance += (fuzzItem.subject.length * this.editCosts.preQueryInsertion);
       } else {
@@ -166,15 +140,23 @@ export class Fuzz {
         ? 1
         : 1 - (fuzzItem.editDistance / worstPossibleEditDistance);
 
-      this.diagnosticsByFuzzItem.get(fuzzItem).worstPossibleEditDistance = worstPossibleEditDistance;
-
       fuzzItem.matchRanges = matchRanges;
       fuzzItem.styledString = this.stringStyler.styleWithTags(
         fuzzItem.subject,
         matchRanges,
         this.startDecorator,
         this.endDecorator,
-      )
+      );
+
+      this.diagnostics.setFuzzalyticsForFuzzItem(
+        fuzzItem,
+        {
+          editMatrix,
+          operationMatrix,
+          traversedCells,
+          worstPossibleEditDistance,
+        },
+      );
     });
   }
 

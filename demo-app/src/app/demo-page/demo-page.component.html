@@ -23,7 +23,7 @@
 </div>
 
 <ng-template #fuzzSearchResultsTab>
-  All Results
+  Search Results
 </ng-template>
 <ng-template #fuzzSearchResultsPage>
   <div class="tab-page">
@@ -60,7 +60,7 @@
 </ng-template>
 
 <ng-template #fuseJsSearchTab>
-  Compare with Fuse.js Demo
+  Compare with Fuse Search Demo
 </ng-template>
 <ng-template #fuseJsSearchPage>
   <div class="tab-page">
@@ -76,9 +76,9 @@
     <div class="results-container">
       <div *ngIf="!sawFuseDisclaimer" class="page-header fuse-js-disclaimer">
         <p>
-          Compare "Fuse.js" against "fuzz-js" search results.
-          "Fuse.js" does not search through arrays in the data.
-          Click the "Use Flat Data" button to generate new data.
+          "Fuse.js" is a similar fuzzy search library.
+          But "Fuse.js" does not search through strings in arrays.
+          Click the "Use Flat Data" button to generate new flat data.
           You can also do this in the "Input Data" tab.
         </p>
         <div class="button-container">
@@ -146,7 +146,7 @@
     <div *ngIf="freshestFuzzItem" class="fuzzalytics-container">
       <app-fuzzalytics
         [fuzzItem]="freshestFuzzItem"
-        [fuzzalyticsByFuzzItem]="fuzz.diagnosticsByFuzzItem"
+        [fuzzalyticsByFuzzItem]="fuzz.diagnostics.fuzzalyticsByFuzzItem"
       ></app-fuzzalytics>
     </div>
     <div *ngIf="!freshestFuzzItem" class="page-footer">Select a row above for match explanation.</div>
