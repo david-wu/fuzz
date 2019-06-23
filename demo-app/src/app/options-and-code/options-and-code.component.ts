@@ -38,7 +38,6 @@ export class OptionsAndCodeComponent {
   }
 
   public optionsFormGroup: FormGroup = this.fb.group({
-    searchKeys: [undefined],
     caseSensitive: [false],
     skipFilter: [false],
     skipSort: [false],

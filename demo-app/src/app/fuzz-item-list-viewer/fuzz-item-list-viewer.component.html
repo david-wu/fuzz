@@ -18,7 +18,7 @@
     </td>
     <td
       *ngFor="let filterSortKey of filterSortKeys"
-      [class.matched-cell]="filterSortKey === fuzzItem.key"
+      [class.matched-cell]="fuzzItem?.query?.length && (filterSortKey === fuzzItem.key)"
     >
       <div *ngIf="fuzzItem.key !== filterSortKey">
         {{ get(fuzzItem.original, filterSortKey) }}
