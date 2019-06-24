@@ -86,3 +86,5 @@ const results = Fuzz.search(users, 'mggi', options);
    */
 ```
 
+## Feedback
+If you find a but, or would like a feature, please feel free to open a [github issue](https://github.com/david-wu/fuzz/issues)
