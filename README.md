@@ -1,6 +1,6 @@
 # fuzz-js
-fuzz-js is a typo tolerant fuzzy search that sorts strings based on their edit distance
-Check out a live demo here!
+fuzz-js is a typo tolerant fuzzy search that sorts strings based on their edit distance.
+Check out a live demo along with an explanation on how it works here!
 https://david-wu.github.io/assets/fuzz-js
 
 ## Setup
@@ -56,35 +56,38 @@ interface SearchOptions {
   }
 ```
 
-Here's an example that changes the default string decorators to italics.
+Here's an example that only searches the "occupation" key, and changes the default string decorators to italics.
+
 ```
 import { Fuzz } from 'fuzz-js';
 
 const users = [
   { name: 'Allen', occupation: 'therapist' },
   { name: 'Maggie', occupation: 'musician' },
-  { name: 'Margret', occuation: 'magician' },
+  { name: 'Margret', occupation: 'magician' },
 ];
 const options = {
+  subjectKeys: ['occupation'],
   startDecorator: '<i>',
   endDecorator: '</i>',
 };
-const results = Fuzz.search(users, 'mggi', options);
+const results = Fuzz.search(users, 'maggi', options);
   /**
-   * [
-   *   {
-   *     "original": { "name": "Maggie" },
-   *     "key": "name",
-   *     "subject": "Maggie",
-   *     "query": "mggi",
-   *     "editDistance": 102,
-   *     "score": 0.7487684729064039,
-   *     "matchRanges": [[0, 0], [2, 4]],
-   *     "styledString": "<i>M</i>a<i>ggi</i>e"
-   *   }
-   * ]
+   *
+   *  [
+   *    {
+   *      "original": { "name": "Margret", "occupation": "magician" },
+   *      "key": "occupation",
+   *      "subject": "magician",
+   *      "query": "maggi",
+   *      "editDistance": 108,
+   *      "score": 0.7874015748031495,
+   *      "matchRanges": [[0, 3]],
+   *      "styledString": "<i>magi</i>cian"
+   *    }
+   *  ]
    */
 ```
 
 ## Feedback
-If you find a but, or would like a feature, please feel free to open a [github issue](https://github.com/david-wu/fuzz/issues)
+If you find a bug, or would like a feature, please feel free to open a [github issue](https://github.com/david-wu/fuzz/issues)
