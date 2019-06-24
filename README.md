@@ -3,6 +3,8 @@ fuzz-js is a typo tolerant fuzzy search that sorts strings based on their edit d
 Check out a live demo along with an explanation on how it works here!
 https://david-wu.github.io/assets/fuzz-js
 
+![](fuzzDemoSmall.gif)
+
 ## Setup
  `npm install --save fuzz-js`
 
