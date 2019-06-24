@@ -15,7 +15,7 @@ enum DecoratorPair {
   selector: 'app-options-and-code',
   templateUrl: './options-and-code.component.html',
   styleUrls: [
-    '../styles/pre-code.scss',
+    '../../styles/pre-code.scss',
     './options-and-code.component.scss',
   ]
 })

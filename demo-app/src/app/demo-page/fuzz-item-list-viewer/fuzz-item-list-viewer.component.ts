@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { FuzzItem } from 'fuzz-js';
-import { scrollIntoView } from '../utils/scroll-into-view';
+import { scrollIntoView } from '../../utils/scroll-into-view';
 
 @Component({
   selector: 'app-fuzz-item-list-viewer',
