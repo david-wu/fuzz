@@ -1,8 +1,7 @@
 # fuzz-js
----
-  fuzz-js is a typo tolerant fuzzy search that sorts strings based on their edit distance
-  Check out a live demo here!
-  https://david-wu.github.io/assets/fuzz-js
+fuzz-js is a typo tolerant fuzzy search that sorts strings based on their edit distance
+Check out a live demo here!
+https://david-wu.github.io/assets/fuzz-js
 
 ## Setup
  `npm install --save fuzz-js`
