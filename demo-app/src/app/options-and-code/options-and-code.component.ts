@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Fuzz, FuzzItem } from 'fuzz-js';
 import { each, isEqual, mapValues } from 'lodash';
 
