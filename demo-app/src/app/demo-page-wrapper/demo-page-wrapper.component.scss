@@ -1,0 +1,48 @@
+app-demo-page-wrapper {
+  display: block;
+  padding-bottom: 10rem;
+  color: #222244;
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    padding: 2rem 2rem 1rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin: 2rem 2rem 0.5rem;
+  }
+
+  p {
+    margin: 0 2rem 0.5rem;
+    max-width: 30rem;
+    line-height: 1.5rem;
+    word-wrap: break-word;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .demo-page-container {
+    height: 40rem;
+    margin: 1rem 2rem;
+    position: relative;
+    background-color: #fdfdfd;
+  }
+
+  pre.code {
+    box-shadow: 2px 2px 5px 2px #aaaaaa;
+    margin: 0.5rem 2rem;
+    max-width: 40rem;
+  }
+
+  @media (max-width: 767px) {
+    p, h2, h3, .demo-page-container, pre.code:not(.code-fills-container) {
+      margin-left: 0.5rem;
+      margin-right: 1.25rem;
+    }
+  }
+
+}

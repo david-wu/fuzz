@@ -16,7 +16,7 @@ enum DecoratorPair {
   templateUrl: './options-and-code.component.html',
   styleUrls: [
     '../../styles/pre-code.scss',
-    './monokai.css',
+    '../../styles/monokai.css',
     './options-and-code.component.scss',
   ],
   encapsulation: ViewEncapsulation.None,

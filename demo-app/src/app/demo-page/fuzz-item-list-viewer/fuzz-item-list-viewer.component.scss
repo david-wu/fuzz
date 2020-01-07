@@ -2,6 +2,14 @@
   flex: 1 1 0;
   display: block;
   overflow: auto;
+  b {
+    font-weight: 600;
+    color: green;
+  }
+  i {
+    font-style: italic;
+    color: purple;
+  }
 }
 
 table {
