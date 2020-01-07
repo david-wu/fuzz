@@ -1,4 +1,4 @@
-:host {
+app-fuzz-item-list-viewer {
   flex: 1 1 0;
   display: block;
   overflow: auto;
@@ -10,48 +10,48 @@
     font-style: italic;
     color: purple;
   }
-}
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-  tr:not(:first-child) {
-    &:hover {
-      background-color: #eef8ff;
-      th.matched-cell, td.matched-cell {
-        background-color: #ddffdd;
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    tr:not(:first-child) {
+      &:hover {
+        background-color: #eef8ff;
+        th.matched-cell, td.matched-cell {
+          background-color: #ddffdd;
+        }
+      }
+      &.selected {
+        background-color: #ddeeff;
+        th.matched-cell, td.matched-cell {
+          background-color: #ccffcc;
+        }
+      }
+
+      td {
+        border-top: 1px solid #dddddd;
       }
     }
-    &.selected {
-      background-color: #ddeeff;
-      th.matched-cell, td.matched-cell {
-        background-color: #ccffcc;
+    th {
+      font-weight: 600;
+    }
+    th, td {
+      padding: 0.5rem 1rem;
+      min-width: 10rem;
+      white-space: nowrap;
+
+      &.score-column {
+        min-width: 2rem;
+        width: 2rem;
+      }
+      &.matched-cell {
+        background-color: #eeffee;
       }
     }
-
-    td {
-      border-top: 1px solid #dddddd;
-    }
   }
-  th {
-    font-weight: 600;
-  }
-  th, td {
-    padding: 0.5rem 1rem;
-    min-width: 10rem;
-    white-space: nowrap;
 
-    &.score-column {
-      min-width: 2rem;
-      width: 2rem;
-    }
-    &.matched-cell {
-      background-color: #eeffee;
-    }
+  .no-entries-found {
+    max-width: 100%;
+    margin: 2rem 1.5rem;
   }
-}
-
-.no-entries-found {
-  max-width: 100%;
-  margin: 2rem 1.5rem;
 }

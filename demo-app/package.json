@@ -3,11 +3,11 @@
   "description": "fuzzy matching demo app",
   "author": "David Wu <david.wuu@gmail.com>",
   "license": "MIT",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "dist/bundles/fuzz-demo-app.umd.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4201",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
