@@ -18,9 +18,6 @@
     "lib": [
       "es2017",
       "dom"
-    ],
-    "paths": {
-      "fuzz-js": ["../src/index.ts"]
-    }
+    ]
   }
 }

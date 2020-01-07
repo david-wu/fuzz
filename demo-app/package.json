@@ -1,15 +1,18 @@
 {
-  "name": "demo-app",
-  "version": "0.0.0",
+  "name": "fuzz-demo-app",
+  "description": "fuzzy matching demo app",
+  "author": "David Wu <david.wuu@gmail.com>",
+  "license": "MIT",
+  "version": "0.0.6",
+  "main": "dist/bundles/fuzz-demo-app.umd.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --aot --build-optimize",
+    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^8.0.2",
     "@angular/cdk": "^8.0.1",
@@ -33,7 +36,8 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.800.0",
+    "@angular-devkit/build-angular": "^0.801.3",
+    "@angular-devkit/build-ng-packagr": "^0.801.3",
     "@angular/cli": "~8.0.3",
     "@angular/compiler-cli": "^8.0.2",
     "@angular/language-service": "^8.0.2",
@@ -48,6 +52,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ng-packagr": "^5.7.1",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",

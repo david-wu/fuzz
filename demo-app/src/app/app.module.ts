@@ -13,6 +13,10 @@ import { DemoPageModule } from './demo-page/demo-page.module';
   imports: [
     DemoPageModule,
   ],
+  exports: [
+    DemoPageModule,
+    AppComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

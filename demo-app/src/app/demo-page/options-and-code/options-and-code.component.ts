@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Fuzz, FuzzItem } from 'fuzz-js';
 import { each, isEqual, mapValues } from 'lodash';
@@ -16,8 +16,10 @@ enum DecoratorPair {
   templateUrl: './options-and-code.component.html',
   styleUrls: [
     '../../styles/pre-code.scss',
+    './monokai.css',
     './options-and-code.component.scss',
-  ]
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class OptionsAndCodeComponent {
 
