@@ -2,20 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
-
-import { DemoPageComponent } from './demo-page.component';
-import { TabbedWindowComponent } from './tabbed-window/tabbed-window.component';
-import { FuzzItemListViewerComponent } from './fuzz-item-list-viewer/fuzz-item-list-viewer.component';
-import { FuzzalyticsComponent } from './fuzzalytics/fuzzalytics.component';
-import { OptionsAndCodeComponent } from './options-and-code/options-and-code.component';
+import { DEMO_PAGE_COMPONENTS } from './index';
 
 @NgModule({
   declarations: [
-    DemoPageComponent,
-    TabbedWindowComponent,
-    FuzzItemListViewerComponent,
-    FuzzalyticsComponent,
-    OptionsAndCodeComponent
+    ...DEMO_PAGE_COMPONENTS,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +15,7 @@ import { OptionsAndCodeComponent } from './options-and-code/options-and-code.com
     LayoutModule,
   ],
   exports: [
-    DemoPageComponent,
+    ...DEMO_PAGE_COMPONENTS,
   ]
 })
 export class DemoPageModule { }
