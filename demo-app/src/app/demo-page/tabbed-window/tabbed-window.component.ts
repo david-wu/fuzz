@@ -12,7 +12,7 @@ export class TabbedWindowComponent implements OnChanges {
   @Input() activeTab: any;
   @Input() canUnselect: any = false;
 
-  @Output() activeTabChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() activeTabChange: EventEmitter<any> = new EventEmitter<any>();
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.activeTab || changes.headerTabs || changes.footerTabs) {

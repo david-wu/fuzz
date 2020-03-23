@@ -34,6 +34,9 @@ app-demo-page-wrapper {
 
   pre.code {
     box-shadow: 2px 2px 5px 2px #aaaaaa;
+  }
+
+  pre.code.code-block {
     margin: 0.5rem 2rem;
     max-width: 40rem;
   }
