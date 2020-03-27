@@ -3,7 +3,7 @@
   "description": "fuzzy matching demo app",
   "author": "David Wu <david.wuu@gmail.com>",
   "license": "MIT",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "main": "dist/bundles/fuzz-demo-app.umd.js",
   "scripts": {
     "ng": "ng",
@@ -26,7 +26,7 @@
     "core-js": "^2.5.4",
     "faker": "^4.1.0",
     "fuse.js": "^3.4.5",
-    "fuzz-js": "0.0.13",
+    "fuzz-js": "0.0.14",
     "highlight.js": "^9.15.8",
     "install": "^0.12.2",
     "lodash": "^4.17.11",
