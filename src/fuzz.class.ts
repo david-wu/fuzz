@@ -50,6 +50,8 @@ export class Fuzz {
   public endDecorator = '</b>';
   public filterThreshold: number = 0.4;
   public editCosts: EditCosts = { ...Fuzz.DEFAULT_EDIT_COSTS };
+  public disableDiagnostics = false;
+  public disableStyledString = false;
 
   constructor(
     public stringStyler: FuzzStringStyler = new FuzzStringStyler(),
@@ -65,7 +67,9 @@ export class Fuzz {
     Object.assign(this, options);
 
     let fuzzItems = this.getScoredFuzzItems(items, query, this.subjectKeys);
-    this.diagnostics.indexFuzzItems(fuzzItems);
+    if (!this.disableDiagnostics) {
+        this.diagnostics.indexFuzzItems(fuzzItems);
+    }
 
     if (!this.skipFilter && query) {
       fuzzItems = fuzzItems.filter((fuzzItem: FuzzItem) => fuzzItem.score >= this.filterThreshold);
@@ -141,22 +145,27 @@ export class Fuzz {
         : 1 - (fuzzItem.editDistance / worstPossibleEditDistance);
 
       fuzzItem.matchRanges = matchRanges;
-      fuzzItem.styledString = this.stringStyler.styleWithTags(
-        fuzzItem.subject,
-        matchRanges,
-        this.startDecorator,
-        this.endDecorator,
-      );
 
-      this.diagnostics.setFuzzalyticsForFuzzItem(
-        fuzzItem,
-        {
-          editMatrix,
-          operationMatrix,
-          traversedCells,
-          worstPossibleEditDistance,
-        },
-      );
+      if (!this.disableStyledString) {
+        fuzzItem.styledString = this.stringStyler.styleWithTags(
+          fuzzItem.subject,
+          matchRanges,
+          this.startDecorator,
+          this.endDecorator,
+        );
+      }
+
+      if (!this.disableDiagnostics) {
+        this.diagnostics.setFuzzalyticsForFuzzItem(
+          fuzzItem,
+          {
+            editMatrix,
+            operationMatrix,
+            traversedCells,
+            worstPossibleEditDistance,
+          },
+        );
+      }
     });
   }
 

@@ -86,10 +86,10 @@ export class DemoPageComponent implements AfterViewInit {
         tabTemplate: this.fuzzSearchTab,
         pageTemplate: this.fuzzSearchPage,
       },
-      {
-        tabTemplate: this.fuseJsSearchTab,
-        pageTemplate: this.fuseJsSearchPage,
-      },
+      // {
+      //   tabTemplate: this.fuseJsSearchTab,
+      //   pageTemplate: this.fuseJsSearchPage,
+      // },
     ];
     this.selectedLeftHeaderTab = this.headerTabsLeft[1];
     this.headerTabsRight = [

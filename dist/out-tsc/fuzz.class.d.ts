@@ -18,6 +18,8 @@ export declare class Fuzz {
     endDecorator: string;
     filterThreshold: number;
     editCosts: EditCosts;
+    disableDiagnostics: boolean;
+    disableStyledString: boolean;
     constructor(stringStyler?: FuzzStringStyler, keyFinder?: FuzzDeepKeyFinder, diagnostics?: FuzzDiagnostics);
     search(items: any[], query: string, options?: Partial<Fuzz>): any[];
     getScoredFuzzItems(items: any[], query: string, subjectKeys?: string[]): FuzzItem[];
