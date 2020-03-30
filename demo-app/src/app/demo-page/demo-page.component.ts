@@ -68,11 +68,13 @@ export class DemoPageComponent implements AfterViewInit {
     this.generateFakeData();
     this.onFilterSortQueryChange(this.filterSortQuery);
 
+    // This should actually use ResizeSensor
+    // breakpointObserver uses the browser-window max-width, not hostElement's width
     this.breakpointObserver.observe([
-      '(max-width: 899px)'
+      '(max-width: 949px)'
     ])
       .subscribe((res) => {
-        this.isSmallScreen = this.mediaMatcher.matchMedia('(max-width: 899px)').matches;
+        this.isSmallScreen = this.mediaMatcher.matchMedia('(max-width: 949px)').matches;
       });
   }
 
