@@ -25,8 +25,8 @@ export class FuzzItemListViewerComponent {
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.fuzzItems || changes.selectedFuzzItem) {
-      this.scrollSelectedFuzzItemIntoView();
-
+      // something buggy, figure out later
+      // this.scrollSelectedFuzzItemIntoView();
     }
 
     if(changes.fuzzItems) {
