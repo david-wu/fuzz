@@ -74,7 +74,7 @@
       <div class="sort-time">search took: {{ fuseJsFilterSortTime }}ms</div>
     </div>
     <div class="results-container">
-      <div *ngIf="!sawFuseDisclaimer" class="page-header fuse-js-disclaimer">
+<!--       <div *ngIf="!sawFuseDisclaimer" class="page-header fuse-js-disclaimer">
         <p>
           "Fuse.js" is a similar fuzzy search library.
           But "Fuse.js" does not search through strings in arrays.
@@ -85,7 +85,7 @@
           <button (click)="generateFlatFakeData()">Use Flat Data</button>
           <button (click)="this.sawFuseDisclaimer = true">Hide this message</button>
         </div>
-      </div>
+      </div> -->
       <app-fuzz-item-list-viewer
         [fuzzItems]="fuseJsFilterItems"
         [filterSortKeys]="searchOptions.subjectKeys"

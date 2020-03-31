@@ -3,8 +3,8 @@
   "description": "fuzzy matching demo app",
   "author": "David Wu <david.wuu@gmail.com>",
   "license": "MIT",
-  "version": "0.0.15",
-  "main": "dist/esm2015/fuzz-demo-app.js",
+  "version": "0.0.16",
+  "main": "public_api",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4201",

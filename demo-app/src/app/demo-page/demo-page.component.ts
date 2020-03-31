@@ -132,7 +132,7 @@ export class DemoPageComponent implements AfterViewInit {
   public onFilterSortQueryChange(filterSortQuery: string) {
     this.filterSortQuery = filterSortQuery;
     this.runQuery();
-    this.runFuseQuery();
+    // this.runFuseQuery();
   }
 
   public allItemsStringChange(allItemsString: string) {
@@ -182,7 +182,7 @@ export class DemoPageComponent implements AfterViewInit {
       subjectKeys: Fuzz.getAllKeys(allItems),
     };
     this.runQuery();
-    this.runFuseQuery();
+    // this.runFuseQuery();
   }
 
   public runQuery() {
@@ -201,20 +201,20 @@ export class DemoPageComponent implements AfterViewInit {
       .get(this.selectedFuzzItem.original)[this.selectedFuzzItem.key];
   }
 
-  public runFuseQuery() {
-    this.fuseJsFilterSortTime = Date.now();
-    var fuse = new Fuse(this.allItems, {
-      keys: this.searchOptions.subjectKeys,
-      includeScore: true,
-    });
-    this.fuseJsFilterItems = fuse.search(this.filterSortQuery)
-      .map((fuseJsFilterItem: any) => {
-        return {
-          ...fuseJsFilterItem,
-          original: fuseJsFilterItem.item,
-        };
-      });
-    this.fuseJsFilterSortTime = Date.now() - this.fuseJsFilterSortTime;
-  }
+  // public runFuseQuery() {
+  //   this.fuseJsFilterSortTime = Date.now();
+  //   var fuse = new Fuse(this.allItems, {
+  //     keys: this.searchOptions.subjectKeys,
+  //     includeScore: true,
+  //   });
+  //   this.fuseJsFilterItems = fuse.search(this.filterSortQuery)
+  //     .map((fuseJsFilterItem: any) => {
+  //       return {
+  //         ...fuseJsFilterItem,
+  //         original: fuseJsFilterItem.item,
+  //       };
+  //     });
+  //   this.fuseJsFilterSortTime = Date.now() - this.fuseJsFilterSortTime;
+  // }
 
 }
