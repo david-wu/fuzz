@@ -3,7 +3,7 @@
   "description": "fuzzy matching demo app",
   "author": "David Wu <david.wuu@gmail.com>",
   "license": "MIT",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "main": "dist/bundles/fuzz-demo-app.umd",
   "scripts": {
     "ng": "ng",

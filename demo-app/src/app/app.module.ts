@@ -1,24 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppComponent } from './app.component';
-import { DemoPageModule } from './demo-page/demo-page.module';
-import { DemoPageWrapperComponent } from './demo-page-wrapper/demo-page-wrapper.component';
+import { DemoPageWrapperModule } from './demo-page-wrapper/demo-page-wrapper.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DemoPageWrapperComponent,
   ],
   imports: [
-    DemoPageModule,
+    BrowserModule,
+    DemoPageWrapperModule,
   ],
-  exports: [
-    DemoPageWrapperComponent,
-    DemoPageModule,
-  ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

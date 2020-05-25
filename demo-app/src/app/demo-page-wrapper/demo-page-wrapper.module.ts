@@ -2,20 +2,22 @@ import { CommonModule } from '@angular/common';
 import { NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
-import { DEMO_PAGE_COMPONENTS } from './index';
+import { DemoPageWrapperComponent } from './demo-page-wrapper.component';
+import { DemoPageModule } from '../demo-page/demo-page.module';
 
 @NgModule({
   declarations: [
-    ...DEMO_PAGE_COMPONENTS,
+    DemoPageWrapperComponent,
   ],
   imports: [
+    DemoPageModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     LayoutModule,
   ],
   exports: [
-    ...DEMO_PAGE_COMPONENTS,
+    DemoPageWrapperComponent,
   ]
 })
-export class DemoPageModule { }
+export class DemoPageWrapperModule { }
